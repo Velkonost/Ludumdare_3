@@ -17,7 +17,7 @@ public class WallEntity extends Actor {
     private Fixture fixture;
     float width, height, x, y, dwidth, dheight;
 
-    public WallEntity(World world, float x, float y, float width, float height) {
+    public WallEntity(World world, float x, float y, float width, float height, boolean isDown) {
 //        this.texture = texture;
         this.world = world;
 
@@ -40,7 +40,12 @@ public class WallEntity extends Actor {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2, height/ 2);
         fixture = body.createFixture(shape, 1);
-        fixture.setUserData("wall");
+        if (isDown) {
+            fixture.setUserData("wallDown");
+        } else {
+            fixture.setUserData("wall");
+        }
+
         shape.dispose();
 
         setSize(width * PIXELS_IN_METER, height * PIXELS_IN_METER);
