@@ -12,6 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.entities.*;
 
+
+import java.util.ArrayList;
+
 /**
  * @author Velkonost
  */
@@ -30,6 +33,10 @@ public class GameScreen extends BaseScreen {
     BitmapFont font;
     SpriteBatch sp;
     CharSequence str;
+
+    private ArrayList<WallEntity> wall;
+
+    private int amountResources = 0;
 
     private OrthographicCamera camera;
 
@@ -52,6 +59,8 @@ public class GameScreen extends BaseScreen {
         this.game = game;
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, -50), true);
+
+        wall = new ArrayList<WallEntity>();
     }
 
     @Override
@@ -71,12 +80,21 @@ public class GameScreen extends BaseScreen {
 
         sp = new SpriteBatch();
 
+        wall.add(new WallEntity(world, 10f, -1f, 30f, 1f));
+        wall.add(new WallEntity(world, -1f, 0f, 1f, 30f));
+        wall.add(new WallEntity(world, 14f, 0f, 1f, 30f));
+        wall.add(new WallEntity(world, 10f, 8f, 30f, 1f));
+
         rocket.boom(true);
         stage.addActor(fireball);
         stage.addActor(fireball2);
         stage.addActor(rocket);
         stage.addActor(earth);
         stage.addActor(mars);
+
+        for (WallEntity aWall : wall) {
+            stage.addActor(aWall);
+        }
 
         font = new BitmapFont();
 
@@ -86,12 +104,27 @@ public class GameScreen extends BaseScreen {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
+                if ((fixtureA.getUserData().equals("mars") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("mars"))) {
+                    haveResource = true;
+                }
+
+                if ((fixtureA.getUserData().equals("earth") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("earth"))) {
+                    if (haveResource) {
+                        haveResource = false;
+                        amountResources ++;
+                    }
+
+                }
+
             }
             @Override
             public void endContact(Contact contact) {
 
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
+
             }
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
@@ -112,15 +145,17 @@ public class GameScreen extends BaseScreen {
 
         fireball.x_main = rocket.getX();
         fireball.y_main = rocket.getY();
-//        sp.begin();
-//        font.getData().setScale(3, 3);
-//        font.draw(sp, str, Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
-//        sp.end();
+
+        sp.begin();
+
+        sp.end();
 
         stage.act();
 
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, 1280, 720);
+        font.getData().setScale(3, 3);
+        font.draw(stage.getBatch(), String.valueOf(amountResources), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
         stage.getBatch().end();
 
         rocket.processInput();
