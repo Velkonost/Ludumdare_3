@@ -10,9 +10,9 @@ import static com.mygdx.game.Constants.PIXELS_IN_METER;
 import static com.mygdx.game.entities.RocketEntity.SPEED_ROCKET;
 
 /**
- * Created by admin on 29.07.2017.
+ * @author Velkonost
  */
-public class FireballEntity extends Actor {
+public class LightEntity extends Actor {
     private World world;
 
     private GameScreen game;
@@ -29,7 +29,7 @@ public class FireballEntity extends Actor {
 
     private float xVelocity;
 
-    public FireballEntity(Texture texture, GameScreen game, World world, float x, float y, float x_main, float y_main) {
+    public LightEntity(Texture texture, GameScreen game, World world, float x, float y) {
         this.texture = texture;
 
         this.x_main = x_main;
@@ -49,13 +49,13 @@ public class FireballEntity extends Actor {
         box.setAsBox(0.25f, 0.5f);
 
         fixture = body.createFixture(box, 1);
-        fixture.setUserData("fireball");
+        fixture.setUserData("light");
 
         body.setFixedRotation(false);
 
         box.dispose();
 
-        xVelocity = -3f + (int)(Math.random() * ((3 + 3f) + 1));
+        xVelocity = -3f + (int) (Math.random() * ((3 + 3f) + 1));
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
     }
@@ -68,7 +68,8 @@ public class FireballEntity extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         body.setLinearVelocity(xVelocity, -SPEED_ROCKET);
-        ;
+
+//        x_body += 0.01f;
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
