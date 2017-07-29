@@ -62,7 +62,7 @@ public class GameScreen extends BaseScreen {
     private ArrayList<Integer> fireballs_del;
     private ArrayList<Integer> lights_del;
 
-    private float showFireball = 2f;
+    private float showFireball = 2f, showZeus = 15;
 
     private boolean haveResource = false;
 
@@ -141,6 +141,8 @@ public class GameScreen extends BaseScreen {
                         haveResource = false;
                         amountResources ++;
                         rocket.speed ++;
+                        showFireball-=0.01f;
+                        showZeus+=1f;
                     }
 
                 }
@@ -312,7 +314,7 @@ public class GameScreen extends BaseScreen {
 
 
 
-        if(timer2>15){
+        if(timer2>showZeus){
             light.clear();
             lights_del.clear();
             light.add(new LightEntity(lightTexture, this, world, 2.5f, 6.5f, "top left", 0));
