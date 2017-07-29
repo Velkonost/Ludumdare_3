@@ -10,10 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.entities.EarthEntity;
-import com.mygdx.game.entities.FireballEntity;
-import com.mygdx.game.entities.MarsEntity;
-import com.mygdx.game.entities.RocketEntity;
+import com.mygdx.game.entities.*;
 
 /**
  * @author Velkonost
@@ -39,7 +36,8 @@ public class GameScreen extends BaseScreen {
     private RocketEntity rocket;
     private EarthEntity earth;
     private MarsEntity mars;
-    private FireballEntity fireball;
+    private static FireballEntity fireball;
+    private static FireballEntity2 fireball2;
 
     private Texture rocketTexture;
     private Texture earthTexture;
@@ -68,12 +66,14 @@ public class GameScreen extends BaseScreen {
         rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
         mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
-        fireball = new FireballEntity(fireballTexture, this, world, 5f, 7f, rocket.getX(), rocket.getY());
+        fireball = new FireballEntity(fireballTexture, this, world, 5.5f, 7f, rocket.getX(), rocket.getY());
+        fireball2 = new FireballEntity2(fireballTexture, this, world, 4.5f, 7f, rocket.getX(), rocket.getY());
 
         sp = new SpriteBatch();
 
         rocket.boom(true);
         stage.addActor(fireball);
+        stage.addActor(fireball2);
         stage.addActor(rocket);
         stage.addActor(earth);
         stage.addActor(mars);
@@ -148,11 +148,13 @@ public class GameScreen extends BaseScreen {
         earth.detach();
         mars.detach();
         fireball.detach();
+        fireball2.detach();
 
         rocket.remove();
         mars.remove();
         earth.remove();
         fireball.remove();
+        fireball2.detach();
     }
 
     @Override
@@ -162,4 +164,5 @@ public class GameScreen extends BaseScreen {
         renderer.dispose();
     }
 
+ 
 }
