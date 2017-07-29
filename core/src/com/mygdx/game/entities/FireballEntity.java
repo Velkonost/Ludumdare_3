@@ -15,6 +15,7 @@ import static com.mygdx.game.entities.RocketEntity.SPEED_ROCKET;
 public class FireballEntity extends Actor {
     private World world;
 
+    public boolean isRemoved = false;
     private GameScreen game;
 
     private Body body;
@@ -73,5 +74,13 @@ public class FireballEntity extends Actor {
                 (body.getPosition().y) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 
+    }
+
+    public void removeFixture(){
+        isRemoved = true;
+    }
+
+    public Fixture getFixture() {
+        return fixture;
     }
 }
