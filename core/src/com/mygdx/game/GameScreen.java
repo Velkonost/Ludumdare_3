@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.entities.EarthEntity;
+import com.mygdx.game.entities.FireballEntity;
 import com.mygdx.game.entities.MarsEntity;
 import com.mygdx.game.entities.RocketEntity;
 
@@ -38,11 +39,13 @@ public class GameScreen extends BaseScreen {
     private RocketEntity rocket;
     private EarthEntity earth;
     private MarsEntity mars;
+    private FireballEntity fireball;
 
     private Texture rocketTexture;
     private Texture earthTexture;
     private Texture marsTexture;
     private Texture background;
+    private Texture fireballTexture;
 
     private boolean haveResource = false;
 
@@ -65,10 +68,12 @@ public class GameScreen extends BaseScreen {
         rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
         mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
+        fireball = new FireballEntity(fireballTexture, this, world, 5f, 7f, rocket.getX(), rocket.getY());
 
         sp = new SpriteBatch();
 
         rocket.boom(true);
+        stage.addActor(fireball);
         stage.addActor(rocket);
         stage.addActor(earth);
         stage.addActor(mars);
@@ -105,7 +110,8 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+        fireball.x_main = rocket.getX();
+        fireball.y_main = rocket.getY();
 //        sp.begin();
 //        font.getData().setScale(3, 3);
 //        font.draw(sp, str, Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
@@ -132,6 +138,7 @@ public class GameScreen extends BaseScreen {
         rocketTexture = game.getManager().get("player_main.png");
         earthTexture = game.getManager().get("earth.png");
         marsTexture = game.getManager().get("mars.png");
+        fireballTexture = game.getManager().get("fireball.png");
         background = game.getManager().get("background.png");
 
     }
@@ -140,10 +147,12 @@ public class GameScreen extends BaseScreen {
         rocket.detach();
         earth.detach();
         mars.detach();
+        fireball.detach();
 
         rocket.remove();
         mars.remove();
         earth.remove();
+        fireball.remove();
     }
 
     @Override

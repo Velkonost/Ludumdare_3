@@ -42,7 +42,7 @@ public class MarsEntity extends Actor {
         body.setFixedRotation(true);
 
         final PolygonShape box = new PolygonShape();
-        box.setAsBox(0.5f, 0.5f);
+        box.setAsBox(0.4f, 0.2f);
 
         fixture = body.createFixture(box, 1000000000);
         fixture.setUserData("mars");
