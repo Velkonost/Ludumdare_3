@@ -83,7 +83,6 @@ public class GameScreen extends BaseScreen {
         rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
         mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
-        fireball = new FireballEntity(fireballTexture, this, world, 5.5f, 6f, rocket.getX(), rocket.getY());
 //        fireball2 = new FireballEntity2(fireballTexture, this, world, 4.5f, 7f, rocket.getX(), rocket.getY());
 
         sp = new SpriteBatch();
