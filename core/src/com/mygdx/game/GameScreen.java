@@ -62,6 +62,8 @@ public class GameScreen extends BaseScreen {
 
     private boolean haveResource = false;
 
+    public LoseScreen lose;
+
     public GameScreen(MainGame game) {
         super(game);
         this.game = game;
@@ -74,6 +76,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
+        lose = new LoseScreen(game);
 
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
@@ -185,11 +188,19 @@ public class GameScreen extends BaseScreen {
                         lights_del.add(i);
                         System.out.println("light" + i);
                     } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("rocket"))) {
-                        if(rocket.health<100) rocket.health += 10;
+                        if(rocket.health<100) {
+                            rocket.health += 10;
+                            if (rocket.health > 100) rocket.health = 100;
+                        }
+
                         lights_del.add(i);
                         System.out.println("light" + i);
                     } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("rocket"))) {
-                        if(rocket.health<100) rocket.health += 10;
+                        if(rocket.health<100) {
+                            rocket.health += 10;
+                            if (rocket.health > 100) rocket.health = 100;
+                        }
+
                         lights_del.add(i);
                         System.out.println("light" + i);
                     } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("earth"))) {
@@ -216,11 +227,6 @@ public class GameScreen extends BaseScreen {
                         }
                     }
                 }
-//                else if ((fixtureA.getUserData().equals("light")) && (fixtureB.getUserData().equals("light"))) {
-//                    fixtureA.setUserData("delete");
-//                    fixtureB.setUserData("delete");
-//                    deleteByUserData();
-//                }
 
 
 
@@ -234,13 +240,7 @@ public class GameScreen extends BaseScreen {
             }
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
-//                Fixture fixtureA = contact.getFixtureA();
-//                Fixture fixtureB = contact.getFixtureB();
-//                if ((fixtureA.getUserData().equals("light")) && (fixtureB.getUserData().equals("light"))) {
-//                    fixtureA.setUserData("delete");
-//                    fixtureB.setUserData("delete");
-//                    deleteByUserData();
-//                }
+
 
             }
             @Override
@@ -250,20 +250,12 @@ public class GameScreen extends BaseScreen {
         });
     }
 
-//    public void deleteByUserData() {
-//        for (LightEntity aLight : light) {
-//            if (aLight.getBody().getUserData().equals("delete")) {
-////                aLight.remove();
-//                light.remove(aLight);
-////                aLight.addAction(Actions.removeActor());
-//
-//            }
-//
-//        }
-//    }
-
     @Override
     public void render(float delta) {
+
+        if (rocket.health <= 0) {
+            game.setScreen(lose);
+        }
 
         Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
