@@ -21,6 +21,9 @@ public class MainGame extends Game {
         manager = new AssetManager();
         manager.load("badlogic.jpg", Texture.class);
         manager.load("player_main.png", Texture.class);
+        manager.load("earth.png", Texture.class);
+        manager.load("mars.png", Texture.class);
+
         manager.finishLoading();
 
         setScreen(new GameScreen(this));

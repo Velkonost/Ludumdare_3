@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.mygdx.game.GameScreen;
 
 import java.util.HashMap;
@@ -50,6 +49,10 @@ public class RocketEntity extends Actor implements InputProcessor {
 
     private Fixture fixture;//
 
+    private boolean isMove = false;
+
+
+    private float startAngle = 0f, finishAngle = 0f;
 
     public RocketEntity(Texture texture, GameScreen game, World world, float x, float y) {
         this.texture = texture;
@@ -69,19 +72,14 @@ public class RocketEntity extends Actor implements InputProcessor {
         final PolygonShape box = new PolygonShape();
         box.setAsBox(0.25f, 0.5f);
 
-        fixture = body.createFixture(box, 1000);
+        fixture = body.createFixture(box, 1);
         fixture.setUserData("rocket");
+
+        body.setFixedRotation(false);
 
         box.dispose();
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
-        RotateToAction rotateToAction = new RotateToAction();
-        rotateToAction.setRotation(90);
-        rotateToAction.setDuration(5f);
-        this.addAction(rotateToAction);
-        rotateToAction.restart();
-
-
     }
 
     public void detach() {
@@ -97,8 +95,20 @@ public class RocketEntity extends Actor implements InputProcessor {
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
-        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 
+        if ((finishAngle > startAngle) && isMove) {
+            batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
+                    1, startAngle, 1, 1, 900, 900, false, false);
+            startAngle += 2f;
+        } else if ((startAngle > finishAngle) && isMove) {
+            batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
+                    1, startAngle, 1, 1, 900, 900, false, false);
+            startAngle -= 2f;
+
+        } else {
+            batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
+                    1, startAngle, 1, 1, 900, 900, false, false);
+        }
     }
 
     public boolean hasMoved(){
@@ -113,7 +123,6 @@ public class RocketEntity extends Actor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.D) {
-//            System.out.println(2);
             rightPressed();
         } else if (keycode == Input.Keys.A) {
             leftPressed();
@@ -146,7 +155,6 @@ public class RocketEntity extends Actor implements InputProcessor {
             Gdx.input.setInputProcessor(null);
         }
     }
-
 
     @Override
     public boolean keyTyped(char character) {
@@ -225,18 +233,39 @@ public class RocketEntity extends Actor implements InputProcessor {
     //в зависимости от выбранного направления движения выставляем новое направление движения для персонажа
     public void processInput() {
 
-        if (keys.get(KeysProger.LEFT))
+        if (keys.get(KeysProger.LEFT)) {
             body.setLinearVelocity(-SPEED_ROCKET, body.getLinearVelocity().y);
-        if (keys.get(KeysProger.RIGHT))
+            finishAngle = 90;
+            isMove = true;
+        }
+        if (keys.get(KeysProger.RIGHT)) {
             body.setLinearVelocity(SPEED_ROCKET, body.getLinearVelocity().y);
-        if (keys.get(KeysProger.UP))
+            finishAngle = -90;
+            isMove = true;
+        }
+        if (keys.get(KeysProger.UP)) {
             body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
-        if (keys.get(KeysProger.DOWN))
+            finishAngle = 0;
+            isMove = true;
+        }
+        if (keys.get(KeysProger.DOWN)) {
             body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
+            finishAngle = startAngle;
+            isMove = true;
+        }
+
         //если не выбрано направление, то стоим на месте
-        if ((keys.get(KeysProger.LEFT) && keys.get(KeysProger.RIGHT)) || (!keys.get(KeysProger.LEFT) && (!keys.get(KeysProger.RIGHT))))
+        if ((keys.get(KeysProger.LEFT) && keys.get(KeysProger.RIGHT)) || (!keys.get(KeysProger.LEFT) && (!keys.get(KeysProger.RIGHT)))) {
             body.setLinearVelocity(0, body.getLinearVelocity().y);
-        if ((keys.get(KeysProger.UP) && keys.get(KeysProger.DOWN)) || (!keys.get(KeysProger.UP) && (!keys.get(KeysProger.DOWN))))
+
+        }
+        if ((keys.get(KeysProger.UP) && keys.get(KeysProger.DOWN)) || (!keys.get(KeysProger.UP) && (!keys.get(KeysProger.DOWN)))) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
+
+        }
+
+        if (!keys.get(KeysProger.LEFT) && (!keys.get(KeysProger.RIGHT)) && (!keys.get(KeysProger.UP) && (!keys.get(KeysProger.DOWN)))) {
+            isMove = false;
+        }
     }
 }
