@@ -23,6 +23,7 @@ public class MainGame extends Game {
         manager.load("player_main.png", Texture.class);
         manager.load("earth.png", Texture.class);
         manager.load("mars.png", Texture.class);
+        manager.load("background.png", Texture.class);
 
         manager.finishLoading();
 

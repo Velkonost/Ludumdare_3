@@ -43,7 +43,7 @@ public class EarthEntity extends Actor {
         final PolygonShape box = new PolygonShape();
         box.setAsBox(0.5f, 0.5f);
 
-        fixture = body.createFixture(box, 1);
+        fixture = body.createFixture(box, 1000000000);
         fixture.setUserData("earth");
 
         body.setFixedRotation(false);

@@ -42,6 +42,9 @@ public class GameScreen extends BaseScreen {
     private Texture rocketTexture;
     private Texture earthTexture;
     private Texture marsTexture;
+    private Texture background;
+
+    private boolean haveResource = false;
 
     public GameScreen(MainGame game) {
         super(game);
@@ -61,7 +64,7 @@ public class GameScreen extends BaseScreen {
 
         rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
-        mars = new MarsEntity(marsTexture, this, world, 8f, 7f);
+        mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
 
         sp = new SpriteBatch();
 
@@ -109,6 +112,11 @@ public class GameScreen extends BaseScreen {
 //        sp.end();
 
         stage.act();
+
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, 1280, 720);
+        stage.getBatch().end();
+
         rocket.processInput();
         world.step(delta, 6, 2);
         camera.update();
@@ -124,6 +132,7 @@ public class GameScreen extends BaseScreen {
         rocketTexture = game.getManager().get("player_main.png");
         earthTexture = game.getManager().get("earth.png");
         marsTexture = game.getManager().get("mars.png");
+        background = game.getManager().get("background.png");
 
     }
 
