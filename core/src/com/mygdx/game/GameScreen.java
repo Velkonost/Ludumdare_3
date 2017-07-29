@@ -50,7 +50,7 @@ public class GameScreen extends BaseScreen {
         super(game);
         this.game = game;
         stage = new Stage(new FitViewport(1280, 720));
-        world = new World(new Vector2(0, 0), true);
+        world = new World(new Vector2(0, -50), true);
     }
 
     @Override
