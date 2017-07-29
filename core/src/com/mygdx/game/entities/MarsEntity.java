@@ -6,8 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.GameScreen;
 
-import static com.mygdx.game.Constants.PIXELS_IN_METER;
-import static com.mygdx.game.entities.RocketEntity.SPEED_ROCKET;
+import static com.mygdx.game.Constants.*;
 
 /**
  * @author Velkonost
@@ -62,12 +61,12 @@ public class MarsEntity extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (getY() > 600) moveUp = false;
-        if (getY() < 100) moveUp = true;
+        if (getY() < 50) moveUp = true;
 
         if (moveUp) {
-            body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
+            body.setLinearVelocity(body.getLinearVelocity().x, PLANET_UP_SPEED);
         } else {
-            body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
+            body.setLinearVelocity(body.getLinearVelocity().x, -PLANET_DOWN_SPEED);
         }
 
 
