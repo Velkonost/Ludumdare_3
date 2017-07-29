@@ -23,6 +23,8 @@ public class FireballEntity extends Actor {
 
     private Fixture fixture;//
 
+    private float x_body = 0f;
+
     private Texture texture;
 
     private float xVelocity;
@@ -67,8 +69,8 @@ public class FireballEntity extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         body.setLinearVelocity(xVelocity, -SPEED_ROCKET);
 
-//        x_body+=0.02f;
-        setPosition((body.getPosition().x) * PIXELS_IN_METER,
+        x_body+=0.01f;
+        setPosition((x_body+body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 
