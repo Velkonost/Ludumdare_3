@@ -54,6 +54,7 @@ public class GameScreen extends BaseScreen {
 
         getTextures();
 
+        rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
         sp = new SpriteBatch();
 
 
@@ -108,44 +109,21 @@ public class GameScreen extends BaseScreen {
 
         rocket.processInput();
 
-        stage.getCamera().position.set(rocket.getX(), rocket.getY(), 0);
-
-
+//        stage.getCamera().position.set(rocket.getX(), rocket.getY(), 0);
+//        img = new Texture("badlogic.jpg");
+//        sp.draw(img, 0, 0);
         world.step(delta, 6, 2);
-        camera.update();
-        renderer.render(world, camera.combined);
+//        camera.update();
+//        renderer.render(world, camera.combined);
         stage.draw();
 
     }
 
     private void getTextures() {
 
+        rocketTexture = game.getManager().get("player_main.png");
 
 
-//        if (choosenVlog.equals("myach1")) {
-//            playerVlogerTexture = game.getManager().get("myachhero.png");
-//            playerVlogerCameraTexture = game.getManager().get("myachheroCamera.png");
-//        }
-//        else {
-//            playerVlogerTexture = game.getManager().get("myach2hero.png");
-//            playerVlogerCameraTexture = game.getManager().get("myach2heroCamera.png");
-//        }
-//
-//
-//        if(choosenProg.equals("player1")) {
-//            playerProgerTexture = game.getManager().get("player1hero.png");
-//        } else if (choosenProg.equals("player2")) {
-//            playerProgerTexture = game.getManager().get("player2hero.png");
-//        }
-//
-//        for (int i = 1; i <= 3; i++) {
-//            botsIdleTexture.add(
-//                    (Texture) game.getManager().get("player" + i + "hero.png")
-//            );
-//        }
-//
-//        phoneTexture = game.getManager().get("mobile.png");
-//        botIdleTexture = game.getManager().get("myach2hero.png");
     }
 
     public void hide() {

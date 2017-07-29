@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.mygdx.game.GameScreen;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class RocketEntity extends Actor implements InputProcessor {
     private Fixture fixture;//
 
 
-    public RocketEntity(Texture texture, Texture phoneTexture, GameScreen game, World world, float x, float y) {
+    public RocketEntity(Texture texture, GameScreen game, World world, float x, float y) {
         this.texture = texture;
 
         this.world = world;
@@ -74,6 +75,12 @@ public class RocketEntity extends Actor implements InputProcessor {
         box.dispose();
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
+        RotateToAction rotateToAction = new RotateToAction();
+        rotateToAction.setRotation(90);
+        rotateToAction.setDuration(5f);
+        this.addAction(rotateToAction);
+        rotateToAction.restart();
+
 
     }
 
@@ -91,6 +98,7 @@ public class RocketEntity extends Actor implements InputProcessor {
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+
     }
 
     public boolean hasMoved(){

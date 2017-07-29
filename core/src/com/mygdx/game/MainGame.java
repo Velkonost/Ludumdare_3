@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 
 /**
  * @author Velkonost
@@ -18,11 +19,11 @@ public class MainGame extends Game {
     @Override
     public void create () {
         manager = new AssetManager();
-
-
+        manager.load("badlogic.jpg", Texture.class);
+        manager.load("player_main.png", Texture.class);
         manager.finishLoading();
 
-//        setScreen(new MenuScreen(this));
+        setScreen(new GameScreen(this));
     }
 
 }
