@@ -148,7 +148,8 @@ public class GameScreen extends BaseScreen {
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, 1280, 720);
         font.getData().setScale(3, 3);
-        font.draw(stage.getBatch(), String.valueOf(amountResources), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
+        font.draw(stage.getBatch(), "Доставлено: " + String.valueOf(amountResources), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
+        font.draw(stage.getBatch(), "Энергия: " + String.valueOf(rocket.health), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-100);
         stage.getBatch().end();
 
         rocket.processInput();

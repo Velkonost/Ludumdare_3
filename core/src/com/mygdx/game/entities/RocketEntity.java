@@ -51,6 +51,8 @@ public class RocketEntity extends Actor implements InputProcessor {
 
     private boolean isMove = false;
 
+    public float health = 100f;
+
 
     private float startAngle = 0f, finishAngle = 0f;
 
