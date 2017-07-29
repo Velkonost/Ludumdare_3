@@ -10,10 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.mygdx.game.entities.EarthEntity;
-import com.mygdx.game.entities.FireballEntity;
-import com.mygdx.game.entities.MarsEntity;
-import com.mygdx.game.entities.RocketEntity;
+import com.mygdx.game.entities.*;
+
+import java.util.ArrayList;
 
 /**
  * @author Velkonost
@@ -33,6 +32,8 @@ public class GameScreen extends BaseScreen {
     BitmapFont font;
     SpriteBatch sp;
     CharSequence str;
+
+    private ArrayList<WallEntity> wall;
 
     private int amountResources = 0;
 
@@ -56,6 +57,8 @@ public class GameScreen extends BaseScreen {
         this.game = game;
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, -50), true);
+
+        wall = new ArrayList<WallEntity>();
     }
 
     @Override
@@ -74,11 +77,20 @@ public class GameScreen extends BaseScreen {
 
         sp = new SpriteBatch();
 
+        wall.add(new WallEntity(world, 10f, -1f, 30f, 1f));
+        wall.add(new WallEntity(world, -1f, 0f, 1f, 30f));
+        wall.add(new WallEntity(world, 14f, 0f, 1f, 30f));
+        wall.add(new WallEntity(world, 10f, 8f, 30f, 1f));
+
         rocket.boom(true);
         stage.addActor(fireball);
         stage.addActor(rocket);
         stage.addActor(earth);
         stage.addActor(mars);
+
+        for (WallEntity aWall : wall) {
+            stage.addActor(aWall);
+        }
 
         font = new BitmapFont();
 
