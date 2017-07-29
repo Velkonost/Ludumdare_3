@@ -86,7 +86,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
-        lose = new LoseScreen(game);
+
         music.setVolume(0.5f);
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
@@ -278,8 +278,9 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-
+        lose = new LoseScreen(game, amountResources);
         if (rocket.health <= 0 || isLose) {
+            music.stop();
             game.setScreen(lose);
         }
 
