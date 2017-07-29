@@ -25,8 +25,7 @@ public class FireballEntity extends Actor {
 
     private Texture texture;
 
-    private boolean moveUp = false;
-    private float x_body = 1.5f;
+    private float xVelocity;
 
     public FireballEntity(Texture texture, GameScreen game, World world, float x, float y, float x_main, float y_main) {
         this.texture = texture;
@@ -45,14 +44,16 @@ public class FireballEntity extends Actor {
         body.setFixedRotation(true);
 
         final PolygonShape box = new PolygonShape();
-        box.setAsBox(0.2f, 0.1f);
+        box.setAsBox(0.25f, 0.5f);
 
-        fixture = body.createFixture(box, 1000000000);
+        fixture = body.createFixture(box, 1);
         fixture.setUserData("fireball");
 
         body.setFixedRotation(false);
 
         box.dispose();
+
+        xVelocity = -3f + (int)(Math.random() * ((3 + 3f) + 1));
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
     }
@@ -64,26 +65,12 @@ public class FireballEntity extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (getY() > 640) moveUp = false;
-        if (getY() < 0) moveUp = true;
+        body.setLinearVelocity(xVelocity, -SPEED_ROCKET);
 
-        if (moveUp) {
-            body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
-        } else {
-            body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
-        }
-
-        x_body+=0.02f;
-        setPosition((x_body+body.getPosition().x) * PIXELS_IN_METER,
+//        x_body+=0.02f;
+        setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
-        //body.setTransform(x_main, y_main, 90);
+        batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 
-        if(moveUp) {
-            batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1f,
-                    1, 45, 0, 0, 900, 900, false, false);
-        }else{
-            batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1f,
-                    1, -45, 0, 0, 900, 900, false, false);
-        }
     }
 }

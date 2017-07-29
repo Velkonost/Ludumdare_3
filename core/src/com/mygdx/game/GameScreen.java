@@ -44,7 +44,7 @@ public class GameScreen extends BaseScreen {
     private EarthEntity earth;
     private MarsEntity mars;
     private static FireballEntity fireball;
-    private static FireballEntity2 fireball2;
+//    private static FireballEntity2 fireball2;
 
     private Texture rocketTexture;
     private Texture earthTexture;
@@ -76,7 +76,7 @@ public class GameScreen extends BaseScreen {
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
         mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
         fireball = new FireballEntity(fireballTexture, this, world, 5.5f, 7f, rocket.getX(), rocket.getY());
-        fireball2 = new FireballEntity2(fireballTexture, this, world, 4.5f, 7f, rocket.getX(), rocket.getY());
+//        fireball2 = new FireballEntity2(fireballTexture, this, world, 4.5f, 7f, rocket.getX(), rocket.getY());
 
         sp = new SpriteBatch();
 
@@ -87,7 +87,7 @@ public class GameScreen extends BaseScreen {
 
         rocket.boom(true);
         stage.addActor(fireball);
-        stage.addActor(fireball2);
+//        stage.addActor(fireball2);
         stage.addActor(rocket);
         stage.addActor(earth);
         stage.addActor(mars);
@@ -143,13 +143,6 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        fireball.x_main = rocket.getX();
-        fireball.y_main = rocket.getY();
-
-        sp.begin();
-
-        sp.end();
-
         stage.act();
 
         stage.getBatch().begin();
@@ -183,13 +176,13 @@ public class GameScreen extends BaseScreen {
         earth.detach();
         mars.detach();
         fireball.detach();
-        fireball2.detach();
+//        fireball2.detach();
 
         rocket.remove();
         mars.remove();
         earth.remove();
         fireball.remove();
-        fireball2.detach();
+//        fireball2.remove();
     }
 
     @Override
