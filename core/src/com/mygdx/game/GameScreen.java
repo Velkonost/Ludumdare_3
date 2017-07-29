@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.game.entities.EarthEntity;
+import com.mygdx.game.entities.MarsEntity;
 import com.mygdx.game.entities.RocketEntity;
 
 /**
@@ -34,30 +36,39 @@ public class GameScreen extends BaseScreen {
     private OrthographicCamera camera;
 
     private RocketEntity rocket;
+    private EarthEntity earth;
+    private MarsEntity mars;
 
     private Texture rocketTexture;
+    private Texture earthTexture;
+    private Texture marsTexture;
 
     public GameScreen(MainGame game) {
         super(game);
         this.game = game;
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, 0), true);
-
     }
 
     @Override
     public void show() {
 
         renderer = new Box2DDebugRenderer();
-        camera = new OrthographicCamera(16, 9);
+        camera = new OrthographicCamera(64, 36);
         camera.translate(0, 1);
 
         getTextures();
 
         rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
+        earth = new EarthEntity(earthTexture, this, world, 1f, 1f);
+        mars = new MarsEntity(marsTexture, this, world, 8f, 1f);
+
         sp = new SpriteBatch();
 
-
+        rocket.boom(true);
+        stage.addActor(rocket);
+        stage.addActor(earth);
+        stage.addActor(mars);
 
         font = new BitmapFont();
 
@@ -91,14 +102,6 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.addActor(rocket);
-        rocket.boom(true);
-
-//        if(a%60>9){
-//            str = ""+(int)floor(a/60)+":"+a%60;
-//        }else{
-//            str = ""+(int)floor(a/60)+":0"+a%60;
-//        }
 
 //        sp.begin();
 //        font.getData().setScale(3, 3);
@@ -106,30 +109,32 @@ public class GameScreen extends BaseScreen {
 //        sp.end();
 
         stage.act();
-
         rocket.processInput();
-
-//        stage.getCamera().position.set(rocket.getX(), rocket.getY(), 0);
-//        img = new Texture("badlogic.jpg");
-//        sp.draw(img, 0, 0);
         world.step(delta, 6, 2);
-//        camera.update();
-//        renderer.render(world, camera.combined);
+        camera.update();
+        renderer.render(world, camera.combined);
+
         stage.draw();
+
 
     }
 
     private void getTextures() {
 
         rocketTexture = game.getManager().get("player_main.png");
-
+        earthTexture = game.getManager().get("earth.png");
+        marsTexture = game.getManager().get("mars.png");
 
     }
 
     public void hide() {
         rocket.detach();
+        earth.detach();
+        mars.detach();
 
         rocket.remove();
+        mars.remove();
+        earth.remove();
     }
 
     @Override
