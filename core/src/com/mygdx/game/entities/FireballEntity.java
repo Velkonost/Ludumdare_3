@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.GameScreen;
 
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
-import static com.mygdx.game.entities.RocketEntity.SPEED_ROCKET;
 
 /**
  * Created by admin on 29.07.2017.
@@ -29,6 +28,8 @@ public class FireballEntity extends Actor {
     private Texture texture;
 
     private float xVelocity;
+
+    public float speed = 2f;
 
     public FireballEntity(Texture texture, GameScreen game, World world, float x, float y, float x_main, float y_main) {
         this.texture = texture;
@@ -68,7 +69,7 @@ public class FireballEntity extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        body.setLinearVelocity(xVelocity, -SPEED_ROCKET);
+        body.setLinearVelocity(xVelocity, -speed);
         ;
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);

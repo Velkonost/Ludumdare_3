@@ -39,8 +39,6 @@ public class RocketEntity extends Actor implements InputProcessor {
     Vector2 previousPosition;
     private Texture texture;
 
-    public static final float SPEED_ROCKET = 2f;
-
     private World world;
 
     private GameScreen game;
@@ -52,6 +50,8 @@ public class RocketEntity extends Actor implements InputProcessor {
     private boolean isMove = false;
 
     public float health = 100f;
+
+    public float speed = 2f;
 
 
     private float startAngle = 0f, finishAngle = 0f;
@@ -236,17 +236,17 @@ public class RocketEntity extends Actor implements InputProcessor {
     public void processInput() {
 
         if (keys.get(KeysProger.LEFT)) {
-            body.setLinearVelocity(-SPEED_ROCKET, body.getLinearVelocity().y);
+            body.setLinearVelocity(-speed, body.getLinearVelocity().y);
             finishAngle = 90;
             isMove = true;
         }
         if (keys.get(KeysProger.RIGHT)) {
-            body.setLinearVelocity(SPEED_ROCKET, body.getLinearVelocity().y);
+            body.setLinearVelocity(speed, body.getLinearVelocity().y);
             finishAngle = -90;
             isMove = true;
         }
         if (keys.get(KeysProger.UP)) {
-            body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
+            body.setLinearVelocity(body.getLinearVelocity().x, speed);
 //            finishAngle = 0;
             isMove = true;
         }
