@@ -24,6 +24,8 @@ public class MarsEntity extends Actor {
 
     private Texture texture;
 
+    private boolean moveUp = true;
+
 
     public MarsEntity(Texture texture, GameScreen game, World world, float x, float y) {
         this.texture = texture;
@@ -59,12 +61,15 @@ public class MarsEntity extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        if (getY() < 70f) {
+        if (getY() > 600) moveUp = false;
+        if (getY() < 100) moveUp = true;
+
+        if (moveUp) {
             body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
-//        } else {
-//            body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
-//        }
-        System.out.println();
+        } else {
+            body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
+        }
+
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.GameScreen;
 
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
+import static com.mygdx.game.entities.RocketEntity.SPEED_ROCKET;
 
 /**
  * @author Velkonost
@@ -23,6 +24,8 @@ public class EarthEntity extends Actor {
 
     private Texture texture;
 
+    private boolean moveUp = false;
+
     public EarthEntity(Texture texture, GameScreen game, World world, float x, float y) {
         this.texture = texture;
 
@@ -32,7 +35,7 @@ public class EarthEntity extends Actor {
 
         BodyDef def = new BodyDef();
         def.position.set(x, y);
-        def.type = BodyDef.BodyType.StaticBody;
+        def.type = BodyDef.BodyType.DynamicBody;
 
         body = world.createBody(def);
         body.setFixedRotation(true);
@@ -57,6 +60,15 @@ public class EarthEntity extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if (getY() > 600) moveUp = false;
+        if (getY() < 100) moveUp = true;
+
+        if (moveUp) {
+            body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
+        } else {
+            body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
+        }
+
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
 

@@ -60,8 +60,8 @@ public class GameScreen extends BaseScreen {
         getTextures();
 
         rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
-        earth = new EarthEntity(earthTexture, this, world, 1f, 1f);
-        mars = new MarsEntity(marsTexture, this, world, 8f, 1f);
+        earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
+        mars = new MarsEntity(marsTexture, this, world, 8f, 7f);
 
         sp = new SpriteBatch();
 
