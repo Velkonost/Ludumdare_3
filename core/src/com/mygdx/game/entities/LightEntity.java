@@ -29,11 +29,12 @@ public class LightEntity extends Actor {
 
     private float xVelocity;
 
-    public LightEntity(Texture texture, GameScreen game, World world, float x, float y) {
+    private String direction;
+
+    public LightEntity(Texture texture, GameScreen game, World world, float x, float y, String direction) {
         this.texture = texture;
 
-        this.x_main = x_main;
-        this.y_main = y_main;
+        this.direction = direction;
         this.world = world;
         this.game = game;
         setPosition(x, y);
@@ -55,7 +56,7 @@ public class LightEntity extends Actor {
 
         box.dispose();
 
-        xVelocity = -3f + (int) (Math.random() * ((3 + 3f) + 1));
+//        xVelocity = -3f + (int) (Math.random() * ((3 + 3f) + 1));
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
     }
@@ -65,9 +66,23 @@ public class LightEntity extends Actor {
         world.destroyBody(body);
     }
 
+    public Body getBody() {
+        return body;
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        body.setLinearVelocity(xVelocity, -SPEED_ROCKET);
+
+        if (direction.equals("top left")) {
+            body.setLinearVelocity(SPEED_ROCKET, -SPEED_ROCKET);
+        } else if (direction.equals("top right")) {
+            body.setLinearVelocity(-SPEED_ROCKET, -SPEED_ROCKET);
+        } else if (direction.equals("bot left")) {
+            body.setLinearVelocity(SPEED_ROCKET, SPEED_ROCKET);
+        } else if (direction.equals("bot right")) {
+            body.setLinearVelocity(-SPEED_ROCKET, SPEED_ROCKET);
+        }
+
 
 //        x_body += 0.01f;
         setPosition((body.getPosition().x) * PIXELS_IN_METER,

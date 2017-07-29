@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.entities.*;
 
-
 import java.util.ArrayList;
 
 /**
@@ -36,6 +35,7 @@ public class GameScreen extends BaseScreen {
     CharSequence str;
 
     private ArrayList<WallEntity> wall;
+    private ArrayList<LightEntity> light;
 
     private int amountResources = 0;
 
@@ -62,6 +62,7 @@ public class GameScreen extends BaseScreen {
         world = new World(new Vector2(0, -50), true);
 
         wall = new ArrayList<WallEntity>();
+        light = new ArrayList<LightEntity>();
     }
 
     @Override
@@ -86,6 +87,11 @@ public class GameScreen extends BaseScreen {
         wall.add(new WallEntity(world, 14f, 0f, 1f, 30f));
         wall.add(new WallEntity(world, 10f, 8f, 30f, 1f));
 
+        light.add(new LightEntity(rocketTexture, this, world, 0f, 8f, "top left"));
+        light.add(new LightEntity(rocketTexture, this, world, 13f, 8f, "top right"));
+        light.add(new LightEntity(rocketTexture, this, world, 0f, 0f, "bot left"));
+        light.add(new LightEntity(rocketTexture, this, world, 13f, 0f, "bot right"));
+
         rocket.boom(true);
         stage.addActor(fireball);
 //        stage.addActor(fireball2);
@@ -95,6 +101,9 @@ public class GameScreen extends BaseScreen {
 
         for (WallEntity aWall : wall) {
             stage.addActor(aWall);
+        }
+        for (LightEntity aLight : light) {
+            stage.addActor(aLight);
         }
 
         font = new BitmapFont();
@@ -119,9 +128,23 @@ public class GameScreen extends BaseScreen {
 
                 }
 
-                if ((fixtureA.getUserData().equals("fireball") && fixtureB.getUserData().equals("wall"))) {
+                if ((fixtureA.getUserData().equals("fireball") && fixtureB.getUserData().equals("wall"))
+                        || (fixtureA.getUserData().equals("wall") && fixtureB.getUserData().equals("fireball"))) {
                         fireball.addAction(Actions.removeActor());
                 }
+
+                if ((fixtureA.getUserData().equals("light") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("light"))) {
+                    rocket.health += 10;
+                    if (rocket.health > 100) rocket.health = 100;
+                }
+//                else if ((fixtureA.getUserData().equals("light")) && (fixtureB.getUserData().equals("light"))) {
+//                    fixtureA.setUserData("delete");
+//                    fixtureB.setUserData("delete");
+//                    deleteByUserData();
+//                }
+
+
 
             }
             @Override
@@ -133,6 +156,13 @@ public class GameScreen extends BaseScreen {
             }
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
+//                Fixture fixtureA = contact.getFixtureA();
+//                Fixture fixtureB = contact.getFixtureB();
+//                if ((fixtureA.getUserData().equals("light")) && (fixtureB.getUserData().equals("light"))) {
+//                    fixtureA.setUserData("delete");
+//                    fixtureB.setUserData("delete");
+//                    deleteByUserData();
+//                }
 
             }
             @Override
@@ -141,6 +171,18 @@ public class GameScreen extends BaseScreen {
             }
         });
     }
+
+//    public void deleteByUserData() {
+//        for (LightEntity aLight : light) {
+//            if (aLight.getBody().getUserData().equals("delete")) {
+////                aLight.remove();
+//                light.remove(aLight);
+////                aLight.addAction(Actions.removeActor());
+//
+//            }
+//
+//        }
+//    }
 
     @Override
     public void render(float delta) {
