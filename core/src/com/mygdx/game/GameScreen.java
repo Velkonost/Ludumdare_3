@@ -64,6 +64,7 @@ public class GameScreen extends BaseScreen {
 
     private float showFireball = 2f, showZeus = 15;
 
+
     private boolean haveResource = false;
 
     public LoseScreen lose;
