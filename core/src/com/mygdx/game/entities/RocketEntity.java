@@ -96,6 +96,10 @@ public class RocketEntity extends Actor implements InputProcessor {
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
 
+        if (getX() > Gdx.graphics.getHeight()) {
+            body.getPosition().x = Gdx.graphics.getHeight();
+        }
+
         if ((finishAngle > startAngle) && isMove) {
             batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
                     1, startAngle, 1, 1, 900, 900, false, false);

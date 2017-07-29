@@ -34,6 +34,8 @@ public class GameScreen extends BaseScreen {
     SpriteBatch sp;
     CharSequence str;
 
+    private int amountResources = 0;
+
     private OrthographicCamera camera;
 
     private RocketEntity rocket;
@@ -86,12 +88,27 @@ public class GameScreen extends BaseScreen {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
 
+                if ((fixtureA.getUserData().equals("mars") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("mars"))) {
+                    haveResource = true;
+                }
+
+                if ((fixtureA.getUserData().equals("earth") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("earth"))) {
+                    if (haveResource) {
+                        haveResource = false;
+                        amountResources ++;
+                    }
+
+                }
+
             }
             @Override
             public void endContact(Contact contact) {
 
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
+
             }
             @Override
             public void preSolve(Contact contact, Manifold oldManifold) {
@@ -112,15 +129,17 @@ public class GameScreen extends BaseScreen {
 
         fireball.x_main = rocket.getX();
         fireball.y_main = rocket.getY();
-//        sp.begin();
-//        font.getData().setScale(3, 3);
-//        font.draw(sp, str, Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
-//        sp.end();
+
+        sp.begin();
+
+        sp.end();
 
         stage.act();
 
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, 1280, 720);
+        font.getData().setScale(3, 3);
+        font.draw(stage.getBatch(), String.valueOf(amountResources), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
         stage.getBatch().end();
 
         rocket.processInput();
