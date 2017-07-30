@@ -23,7 +23,8 @@ import java.util.Map;
 public class GameScreen extends BaseScreen {
 
     private final float UPDATE_TIME = 1/60f;
-    private float timer = 0;
+    private float timer = 0, timer2 = 0, timer3 = 0;
+    private boolean secTimer3 = false;
 
     private Stage stage;
 
@@ -53,6 +54,7 @@ public class GameScreen extends BaseScreen {
     private Texture earthTexture;
     private Texture marsTexture;
     private Texture background;
+    private Texture acceptHelp;
     private Texture fireballTexture;
     private Texture lightTexture;
 
@@ -69,7 +71,7 @@ public class GameScreen extends BaseScreen {
         world = new World(new Vector2(0, -50), true);
 
         wall = new ArrayList<WallEntity>();
-        light = new ArrayList<LightEntity>();
+
     }
 
     @Override
@@ -78,6 +80,7 @@ public class GameScreen extends BaseScreen {
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
         lights_del = new ArrayList<Integer>();
+        light = new ArrayList<LightEntity>();
 
         renderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(64, 36);
@@ -97,11 +100,6 @@ public class GameScreen extends BaseScreen {
         wall.add(new WallEntity(world, 14f, 0f, 1f, 30f));
         wall.add(new WallEntity(world, 10f, 8f, 30f, 1f));
 
-        light.add(new LightEntity(lightTexture, this, world, 2f, 6f, "top left", 0));
-        light.add(new LightEntity(lightTexture, this, world, 11f, 6f, "top right", 1));
-        light.add(new LightEntity(lightTexture, this, world, 2f, 1f, "bot left", 2));
-        light.add(new LightEntity(lightTexture, this, world, 12f, 1f, "bot right", 3));
-
         rocket.boom(true);
 //        stage.addActor(fireball);
 //        stage.addActor(fireball2);
@@ -111,9 +109,6 @@ public class GameScreen extends BaseScreen {
 
         for (WallEntity aWall : wall) {
             stage.addActor(aWall);
-        }
-        for (LightEntity aLight : light) {
-            stage.addActor(aLight);
         }
 
         font = new BitmapFont();
@@ -287,6 +282,8 @@ public class GameScreen extends BaseScreen {
             }
         }
         timer+=delta;
+        timer2+=delta;
+
         if(timer>3){
             Map<String, FireballEntity> fireballNames = new HashMap<String, FireballEntity>();
             fireballNames.put("fireball"+(fireballs.size()-1),new FireballEntity(fireballTexture, this, world, 5.5f, 6.8f, rocket.getX(), rocket.getY()));
@@ -295,6 +292,24 @@ public class GameScreen extends BaseScreen {
             stage.addActor(fireballs.get(fireballs.size()-1));
             timer = 0;
         }
+        if(timer2>15){
+            light.clear();
+            lights_del.clear();
+            light.add(new LightEntity(lightTexture, this, world, 2.5f, 6.5f, "top left", 0));
+            light.add(new LightEntity(lightTexture, this, world, 10.5f, 5.5f, "top right", 1));
+            light.add(new LightEntity(lightTexture, this, world, 1.5f, 1f, "bot left", 2));
+            light.add(new LightEntity(lightTexture, this, world, 11.5f, 1.5f, "bot right", 3));
+
+            for (LightEntity aLight : light) {
+                stage.addActor(aLight);
+            }
+            timer2 = 0;
+            secTimer3 = true;
+        }
+        if(timer3>3){
+            timer3 = 0;
+            secTimer3 = false;
+        }
         stage.act();
 
         stage.getBatch().begin();
@@ -302,8 +317,14 @@ public class GameScreen extends BaseScreen {
         font.getData().setScale(1, 1);
         font.draw(stage.getBatch(), "Resources: " + String.valueOf(amountResources), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
         font.draw(stage.getBatch(), "Energy: " + String.valueOf(rocket.health), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-100);
-        stage.getBatch().end();
 
+
+        if(secTimer3){
+            timer3+=delta;
+            stage.getBatch().draw(acceptHelp, 0, 0, 1280, 720);
+
+        }
+        stage.getBatch().end();
         rocket.processInput();
         world.step(delta, 6, 2);
         camera.update();
@@ -322,6 +343,9 @@ public class GameScreen extends BaseScreen {
         fireballTexture = game.getManager().get("fireball.png");
         background = game.getManager().get("background.png");
         lightTexture = game.getManager().get("light.png");
+        acceptHelp = game.getManager().get("accepthelp.png");
+
+
 
     }
 
