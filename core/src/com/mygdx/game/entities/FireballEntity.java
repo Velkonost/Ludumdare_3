@@ -57,7 +57,7 @@ public class FireballEntity extends Actor {
 
         box.dispose();
 
-        xVelocity = -3f + (int)(Math.random() * ((3 + 3f) + 1));
+        xVelocity = -5f + (int)(Math.random() * ((5 + 5f) + 1));
 
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
     }
