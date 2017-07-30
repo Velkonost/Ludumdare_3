@@ -255,7 +255,7 @@ public class GameScreen extends BaseScreen {
 
                         musicFlickLight.stop();
                         musicFlickLight.play();
-                        
+
                         lights_del.add(i);
                         System.out.println("light" + i);
                     } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("earth"))) {
