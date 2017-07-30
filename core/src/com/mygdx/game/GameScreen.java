@@ -174,11 +174,13 @@ public class GameScreen extends BaseScreen {
                         System.out.println("fireball"+i);
                     }
                     else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("rocket"))) {
+                        musicShot.stop();
                         musicShot.play();
                         rocket.health -= 10;
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
                     } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("rocket"))) {
+                        musicShot.stop();
                         musicShot.play();
                         rocket.health -= 10;
                         fireballs_del.add(i);
