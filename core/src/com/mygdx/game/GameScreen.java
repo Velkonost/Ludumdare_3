@@ -124,8 +124,6 @@ public class GameScreen extends BaseScreen {
         wall.add(new WallEntity(world, 10f, 8f, 30f, 1f, false));
 
         rocket.boom(true);
-//        stage.addActor(fireball);
-//        stage.addActor(fireball2);
         stage.addActor(rocket);
         stage.addActor(earth);
         stage.addActor(mars);
@@ -164,7 +162,7 @@ public class GameScreen extends BaseScreen {
                         haveResource = false;
                         amountResources ++;
                         showFireball-=0.2f;
-                        rocket.speed += 0.2f;
+                        rocket.speed += 0.3f;
                         showFireball-=0.01f;
                         showZeus+=1f;
                     }
