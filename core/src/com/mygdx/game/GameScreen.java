@@ -93,6 +93,9 @@ public class GameScreen extends BaseScreen {
         musicShot.setVolume(0.2f);
         musicZeus.setVolume(1f);
         music.setLooping(true);
+
+
+        music.setVolume(0.5f);
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
         lights_del = new ArrayList<Integer>();
@@ -285,8 +288,9 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-
+        lose = new LoseScreen(game, amountResources);
         if (rocket.health <= 0 || isLose) {
+            music.stop();
             game.setScreen(lose);
         }
 
