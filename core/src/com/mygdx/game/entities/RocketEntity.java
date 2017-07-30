@@ -53,6 +53,8 @@ public class RocketEntity extends Actor implements InputProcessor {
 
     public float speed = 2f;
 
+    public float speedUp = 2f;
+
 
     private float startAngle = 0f, finishAngle = 0f;
 
@@ -246,7 +248,7 @@ public class RocketEntity extends Actor implements InputProcessor {
             isMove = true;
         }
         if (keys.get(KeysProger.UP)) {
-            body.setLinearVelocity(body.getLinearVelocity().x, speed);
+            body.setLinearVelocity(body.getLinearVelocity().x, speedUp);
 //            finishAngle = 0;
             isMove = true;
         }
