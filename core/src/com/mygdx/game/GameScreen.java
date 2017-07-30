@@ -166,6 +166,7 @@ public class GameScreen extends BaseScreen {
 
                 if ((fixtureA.getUserData().equals("earth") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("earth"))) {
+
                     if (haveResource) {
                         musicFlickEarth.stop();
                         musicFlickEarth.play();
@@ -181,6 +182,9 @@ public class GameScreen extends BaseScreen {
                         }
 
                         showZeus+=1f;
+                    }
+                    if(amountResources==9){
+                        isGravityChanged = true;
                     }
 
                 }
@@ -338,7 +342,6 @@ public class GameScreen extends BaseScreen {
         if (amountResources >= 9) {
             world.setGravity(new Vector2(0, 25));
             gravityChanged = true;
-            isGravityChanged = true;
         }
 
 
