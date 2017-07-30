@@ -68,7 +68,7 @@ public class GameScreen extends BaseScreen {
 
     private boolean haveResource = false;
 
-    private Music music, musicFlickMars, musicFlickEarth,musicZeus, musicShot;
+    private Music music, musicFlickMars, musicFlickEarth,musicZeus, musicShot, musicFlickLight;
     public LoseScreen lose;
 
     private boolean isLose = false;
@@ -81,6 +81,7 @@ public class GameScreen extends BaseScreen {
         musicShot = Gdx.audio.newMusic(Gdx.files.internal("shot.mp3"));
         musicFlickMars = Gdx.audio.newMusic(Gdx.files.internal("soundFlick.mp3"));
         musicFlickEarth = Gdx.audio.newMusic(Gdx.files.internal("soundFlick2.mp3"));
+        musicFlickLight = Gdx.audio.newMusic(Gdx.files.internal("soundLight.mp3"));
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, -50), true);
 
@@ -91,10 +92,11 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         lose = new LoseScreen(game);
-        music.setVolume(0.2f);
+        music.setVolume(0.1f);
         musicShot.setVolume(0.5f);
         musicFlickEarth.setVolume(0.5f);
         musicFlickMars.setVolume(0.5f);
+        musicFlickLight.setVolume(0.5f);
         musicZeus.setVolume(1f);
         music.setLooping(true);
 
@@ -239,6 +241,8 @@ public class GameScreen extends BaseScreen {
                             rocket.health += 10;
                             if (rocket.health > 100) rocket.health = 100;
                         }
+                        musicFlickLight.stop();
+                        musicFlickLight.play();
 
                         lights_del.add(i);
                         System.out.println("light" + i);
@@ -248,6 +252,10 @@ public class GameScreen extends BaseScreen {
                             if (rocket.health > 100) rocket.health = 100;
                         }
 
+
+                        musicFlickLight.stop();
+                        musicFlickLight.play();
+                        
                         lights_del.add(i);
                         System.out.println("light" + i);
                     } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("earth"))) {
