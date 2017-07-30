@@ -87,12 +87,12 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         lose = new LoseScreen(game);
-
+        music.setVolume(0.5f);
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
         lights_del = new ArrayList<Integer>();
         light = new ArrayList<LightEntity>();
-
+        music.play();
         renderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(64, 36);
         camera.translate(0, 1);
