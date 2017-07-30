@@ -26,7 +26,7 @@ public class WinScreen extends BaseScreen {
 
     public void show() {
         LS = new SpriteBatch();
-        losePik = game.getManager().get("lose.jpg");
+        losePik = game.getManager().get("menuWon.png");
         font = new BitmapFont();
     }
 
@@ -36,7 +36,7 @@ public class WinScreen extends BaseScreen {
         LS.begin();
         LS.draw(losePik, 0, 0);
         font.getData().setScale(3, 3);
-        font.draw(LS, "LOSE :-(", Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 50);
+//        font.draw(LS, "PRESS ENTER TO START NEW GAME", Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 50);
 
         LS.end();
     }
