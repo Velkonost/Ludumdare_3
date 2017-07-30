@@ -24,7 +24,7 @@ import java.util.Map;
 public class GameScreen extends BaseScreen {
 
     private final float UPDATE_TIME = 1/60f;
-    private float timer = 0, timer2 = 0, timer3 = 0;
+    private float timer = 0, timer2 = 0, timer3 = 0, timer4 = 0;
     private boolean secTimer3 = false;
 
     private Stage stage;
@@ -60,6 +60,7 @@ public class GameScreen extends BaseScreen {
     private Texture acceptHelp;
     private Texture fireballTexture;
     private Texture lightTexture;
+    private Texture changeGravityTexture;
 
     private ArrayList<FireballEntity> fireballs;
     private ArrayList<Integer> fireballs_del;
@@ -67,10 +68,10 @@ public class GameScreen extends BaseScreen {
 
     private float showFireball = 2f, showZeus = 15;
 
-
+    private boolean isGravityChanged = false;
     private boolean haveResource = false;
 
-    private Music music, musicFlickMars, musicFlickEarth,musicZeus, musicShot, musicFlickLight;
+    private Music music, musicFlickMars, musicFlickEarth,musicZeus, musicShot, musicFlickLight, signal;
     public LoseScreen lose;
 
     private boolean isLose = false;
@@ -79,6 +80,7 @@ public class GameScreen extends BaseScreen {
         super(game);
         this.game = game;
         music = Gdx.audio.newMusic(Gdx.files.internal("audio.mp3"));
+        signal = Gdx.audio.newMusic(Gdx.files.internal("signal.mp3"));
         musicZeus = Gdx.audio.newMusic(Gdx.files.internal("musicZeus.mp3"));
         musicShot = Gdx.audio.newMusic(Gdx.files.internal("shot.mp3"));
         musicFlickMars = Gdx.audio.newMusic(Gdx.files.internal("soundFlick.mp3"));
@@ -100,6 +102,7 @@ public class GameScreen extends BaseScreen {
         musicFlickEarth.setVolume(0.5f);
         musicFlickMars.setVolume(0.5f);
         musicFlickLight.setVolume(0.5f);
+        signal.setVolume(0.5f);
         musicZeus.setVolume(1f);
         music.setLooping(true);
 
@@ -335,7 +338,9 @@ public class GameScreen extends BaseScreen {
         if (amountResources >= 9) {
             world.setGravity(new Vector2(0, 25));
             gravityChanged = true;
+            isGravityChanged = true;
         }
+
 
         lose = new LoseScreen(game, amountResources);
         if (rocket.health <= 0 || isLose) {
@@ -412,7 +417,15 @@ public class GameScreen extends BaseScreen {
         if(secTimer3){
             timer3+=delta;
             stage.getBatch().draw(acceptHelp, 0, 0, 1280, 720);
-
+        }
+        if(isGravityChanged){
+            timer4+=delta;
+            signal.play();
+            stage.getBatch().draw(changeGravityTexture, 0, 0, 1280, 720);
+            if(timer4>3){
+                isGravityChanged = false;
+                signal.stop();
+            }
         }
         stage.getBatch().end();
         rocket.processInput();
@@ -434,6 +447,7 @@ public class GameScreen extends BaseScreen {
         background = game.getManager().get("background.png");
         lightTexture = game.getManager().get("light.png");
         acceptHelp = game.getManager().get("accepthelp.png");
+        changeGravityTexture = game.getManager().get("gravityChange.png");
 
 
 

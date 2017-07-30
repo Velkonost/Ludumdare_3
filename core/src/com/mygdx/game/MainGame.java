@@ -26,6 +26,7 @@ public class MainGame extends Game {
         manager.load("background.png", Texture.class);
         manager.load("fireball.png", Texture.class);
         manager.load("light.png", Texture.class);
+        manager.load("gravityChange.png", Texture.class);
 
         manager.load("accepthelp.png", Texture.class);
         manager.load("lose.jpg", Texture.class);
