@@ -89,8 +89,8 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         lose = new LoseScreen(game);
-        music.setVolume(0.3f);
-        musicShot.setVolume(0.2f);
+        music.setVolume(0.2f);
+        musicShot.setVolume(0.4f);
         musicZeus.setVolume(1f);
         music.setLooping(true);
 
