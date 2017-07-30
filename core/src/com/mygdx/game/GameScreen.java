@@ -65,6 +65,7 @@ public class GameScreen extends BaseScreen {
 
     private float showFireball = 2f, showZeus = 15;
 
+
     private boolean haveResource = false;
 
     private Music music;
@@ -98,10 +99,9 @@ public class GameScreen extends BaseScreen {
 
         getTextures();
 
-        rocket = new RocketEntity(rocketTexture, this, world, 8f, 5f);
+        rocket = new RocketEntity(rocketTexture, this, world, 1f, 5f);
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
         mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
-//        fireball2 = new FireballEntity2(fireballTexture, this, world, 4.5f, 7f, rocket.getX(), rocket.getY());
 
         sp = new SpriteBatch();
 
@@ -145,6 +145,8 @@ public class GameScreen extends BaseScreen {
                         haveResource = false;
                         amountResources ++;
                         showFireball-=0.2f;
+                        rocket.speed ++;
+                        showFireball-=0.01f;
                         showZeus+=1f;
                     }
 
@@ -340,8 +342,9 @@ public class GameScreen extends BaseScreen {
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, 1280, 720);
         font.getData().setScale(1, 1);
+        font.draw(stage.getBatch(), "Destination: " + (haveResource ? "Earth" : "Mars"), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-25);
         font.draw(stage.getBatch(), "Resources: " + String.valueOf(amountResources), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-50);
-        font.draw(stage.getBatch(), "Energy: " + String.valueOf(rocket.health), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-100);
+        font.draw(stage.getBatch(), "Energy: " + String.valueOf(rocket.health), Gdx.graphics.getWidth()-200,  Gdx.graphics.getHeight()-75);
 
 
         if(secTimer3){

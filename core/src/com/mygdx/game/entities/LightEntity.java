@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.GameScreen;
 
 import static com.mygdx.game.Constants.PIXELS_IN_METER;
-import static com.mygdx.game.entities.RocketEntity.SPEED_ROCKET;
 
 /**
  * @author Velkonost
@@ -32,6 +31,8 @@ public class LightEntity extends Actor {
     private float xVelocity;
 
     private String direction;
+
+    public float speed = 2f;
 
     public LightEntity(Texture texture, GameScreen game, World world, float x, float y, String direction, int userData) {
         this.texture = texture;
@@ -76,13 +77,13 @@ public class LightEntity extends Actor {
     public void draw(Batch batch, float parentAlpha) {
 
         if (direction.equals("top left")) {
-            body.setLinearVelocity(SPEED_ROCKET, -SPEED_ROCKET);
+            body.setLinearVelocity(speed, -speed);
         } else if (direction.equals("top right")) {
-            body.setLinearVelocity(-SPEED_ROCKET, -SPEED_ROCKET);
+            body.setLinearVelocity(-speed, -speed);
         } else if (direction.equals("bot left")) {
-            body.setLinearVelocity(SPEED_ROCKET, SPEED_ROCKET);
+            body.setLinearVelocity(speed, speed);
         } else if (direction.equals("bot right")) {
-            body.setLinearVelocity(-SPEED_ROCKET, SPEED_ROCKET);
+            body.setLinearVelocity(-speed, speed);
         }
 
 
