@@ -73,8 +73,10 @@ public class GameScreen extends BaseScreen {
 
     private Music music, musicFlickMars, musicFlickEarth,musicZeus, musicShot, musicFlickLight, signal;
     public LoseScreen lose;
+    public WinScreen win;
 
     private boolean isLose = false;
+    private boolean isWon = false;
 
     public GameScreen(MainGame game) {
         super(game);
@@ -97,6 +99,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         lose = new LoseScreen(game);
+        win = new WinScreen(game);
         music.setVolume(0.1f);
         musicShot.setVolume(0.5f);
         musicFlickEarth.setVolume(0.5f);
@@ -185,6 +188,10 @@ public class GameScreen extends BaseScreen {
                     }
                     if(amountResources==9){
                         isGravityChanged = true;
+                    }
+
+                    if (amountResources == 11) {
+                        isWon = true;
                     }
 
                 }
@@ -339,6 +346,9 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
+        if (isWon) {
+            game.setScreen(win);
+        }
         if (amountResources >= 9) {
             world.setGravity(new Vector2(0, 25));
             gravityChanged = true;
