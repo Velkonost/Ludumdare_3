@@ -3,11 +3,13 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
  * @author Velkonost
@@ -25,8 +27,6 @@ public class LoseScreen extends BaseScreen implements InputProcessor {
 
     private int score;
 
-    public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
-
     public LoseScreen(MainGame game, int score){
         super();
         this.game = game;
@@ -37,13 +37,19 @@ public class LoseScreen extends BaseScreen implements InputProcessor {
     }
 
     public void show() {
+        FileHandle fontFile = Gdx.files.internal("impact.ttf");
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 24;
+
         LS = new SpriteBatch();
         losePik = game.getManager().get("menulose.png");
-//        font = new BitmapFont(Gdx.files.internal("impact.ttf"));
-        font = TrueTypeFontGenerator.createBitmapFont(Gdx.files.internal("font.ttf"), FONT_CHARACTERS, 12.5f, 7.5f, 1.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+//        font = new BitmapFont(fontFile);
+        font = generator.generateFont(parameter);
         mGameScreen = new GameScreen(game);
         Gdx.input.setInputProcessor(this);
+
+        generator.dispose();
     }
 
     public void render(float delta) {
@@ -52,7 +58,7 @@ public class LoseScreen extends BaseScreen implements InputProcessor {
         LS.begin();
         LS.draw(losePik, 0, 0);
         font.getData().setScale(3, 3);
-        font.draw(LS, "YOUR SCORE: " + String.valueOf(score), 200,  Gdx.graphics.getHeight()-150);
+        font.draw(LS, "YOUR SCORE: " + String.valueOf(score), 450,  Gdx.graphics.getHeight()-350);
 
         LS.end();
     }
