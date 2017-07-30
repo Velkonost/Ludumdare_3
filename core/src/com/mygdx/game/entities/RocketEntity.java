@@ -124,11 +124,11 @@ public class RocketEntity extends Actor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.D) {
+        if (keycode == Input.Keys.D || keycode == Input.Keys.RIGHT) {
             rightPressed();
-        } else if (keycode == Input.Keys.A) {
+        } else if (keycode == Input.Keys.A || keycode == Input.Keys.LEFT) {
             leftPressed();
-        } else if (keycode == Input.Keys.W) {
+        } else if (keycode == Input.Keys.SPACE) {
             upPressed();
         } else if (keycode == Input.Keys.S) {
             downPressed();
@@ -138,11 +138,11 @@ public class RocketEntity extends Actor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.D) {
+        if (keycode == Input.Keys.D || keycode == Input.Keys.RIGHT) {
             rightReleased();
-        } else if (keycode == Input.Keys.A) {
+        } else if (keycode == Input.Keys.A || keycode == Input.Keys.LEFT) {
             leftReleased();
-        } else if (keycode == Input.Keys.W) {
+        } else if (keycode == Input.Keys.SPACE) {
             upReleased();
         } else if (keycode == Input.Keys.S) {
             downReleased();
@@ -247,12 +247,7 @@ public class RocketEntity extends Actor implements InputProcessor {
         }
         if (keys.get(KeysProger.UP)) {
             body.setLinearVelocity(body.getLinearVelocity().x, SPEED_ROCKET);
-            finishAngle = 0;
-            isMove = true;
-        }
-        if (keys.get(KeysProger.DOWN)) {
-            body.setLinearVelocity(body.getLinearVelocity().x, -SPEED_ROCKET);
-            finishAngle = startAngle;
+//            finishAngle = 0;
             isMove = true;
         }
 
@@ -261,12 +256,8 @@ public class RocketEntity extends Actor implements InputProcessor {
             body.setLinearVelocity(0, body.getLinearVelocity().y);
 
         }
-        if ((keys.get(KeysProger.UP) && keys.get(KeysProger.DOWN)) || (!keys.get(KeysProger.UP) && (!keys.get(KeysProger.DOWN)))) {
-            body.setLinearVelocity(body.getLinearVelocity().x, 0);
 
-        }
-
-        if (!keys.get(KeysProger.LEFT) && (!keys.get(KeysProger.RIGHT)) && (!keys.get(KeysProger.UP) && (!keys.get(KeysProger.DOWN)))) {
+        if (!keys.get(KeysProger.LEFT) && (!keys.get(KeysProger.RIGHT)))  {
             isMove = false;
         }
     }
