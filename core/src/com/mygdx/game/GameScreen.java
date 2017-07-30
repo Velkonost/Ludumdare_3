@@ -190,7 +190,7 @@ public class GameScreen extends BaseScreen {
                         isGravityChanged = true;
                     }
 
-                    if (amountResources == 11) {
+                    if (amountResources == 1) {
                         isWon = true;
                     }
 
@@ -347,6 +347,8 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         if (isWon) {
+            music.stop();
+            signal.stop();
             game.setScreen(win);
         }
         if (amountResources >= 9) {
