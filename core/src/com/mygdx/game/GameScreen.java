@@ -62,7 +62,7 @@ public class GameScreen extends BaseScreen {
     private ArrayList<Integer> fireballs_del;
     private ArrayList<Integer> lights_del;
 
-    private float showFireball = 2f;
+    private float showFireball = 2f;   
 
     private boolean haveResource = false;
 
