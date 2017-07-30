@@ -276,7 +276,7 @@ public class GameScreen extends BaseScreen {
         timer+=delta;
         timer2+=delta;
 
-        if(timer>3){
+        if(timer>0.5){
             Map<String, FireballEntity> fireballNames = new HashMap<String, FireballEntity>();
             fireballNames.put("fireball"+(fireballs.size()-1),new FireballEntity(fireballTexture, this, world, 5.5f, 6.8f, rocket.getX(), rocket.getY()));
             fireballs.add(fireballNames.get("fireball"+(fireballs.size()-1)));
