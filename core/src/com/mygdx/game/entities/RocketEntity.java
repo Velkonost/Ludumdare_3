@@ -37,7 +37,7 @@ public class RocketEntity extends Actor implements InputProcessor {
     }
 
     Vector2 previousPosition;
-    private Texture texture;
+    public Texture texture;
 
     private World world;
 
@@ -99,7 +99,6 @@ public class RocketEntity extends Actor implements InputProcessor {
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
-
 
 
         if ((finishAngle > startAngle) && isMove) {

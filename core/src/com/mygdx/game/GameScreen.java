@@ -365,6 +365,14 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(0, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (rocket.health <= 30) {
+            rocket.texture = game.getManager().get("player_main_crash2.png");
+        } else if (rocket.health <= 70) {
+            rocket.texture  = game.getManager().get("player_main_crash.png");
+        } else {
+            rocket.texture  = game.getManager().get("player_main.png");
+        }
+
         if(fireballs_del.size()>0){
             for(int i = 0; i<fireballs_del.size(); i++){
                 if(!fireballs.get(fireballs_del.get(i)).isRemoved) {

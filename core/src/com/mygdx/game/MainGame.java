@@ -34,6 +34,9 @@ public class MainGame extends Game {
         manager.load("menuStart.png", Texture.class);
         manager.load("menuWon.png", Texture.class);
 
+        manager.load("player_main_crash.png", Texture.class);
+        manager.load("player_main_crash2.png", Texture.class);
+
 
         manager.finishLoading();
 
