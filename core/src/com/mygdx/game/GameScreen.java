@@ -68,7 +68,7 @@ public class GameScreen extends BaseScreen {
 
     private boolean haveResource = false;
 
-    private Music music, musicZeus, musicShot;
+    private Music music, musicFlickMars, musicFlickEarth,musicZeus, musicShot;
     public LoseScreen lose;
 
     private boolean isLose = false;
@@ -79,6 +79,8 @@ public class GameScreen extends BaseScreen {
         music = Gdx.audio.newMusic(Gdx.files.internal("audio.mp3"));
         musicZeus = Gdx.audio.newMusic(Gdx.files.internal("musicZeus.mp3"));
         musicShot = Gdx.audio.newMusic(Gdx.files.internal("shot.mp3"));
+        musicFlickMars = Gdx.audio.newMusic(Gdx.files.internal("soundFlick.mp3"));
+        musicFlickEarth = Gdx.audio.newMusic(Gdx.files.internal("soundFlick2.mp3"));
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, -50), true);
 
@@ -90,17 +92,18 @@ public class GameScreen extends BaseScreen {
     public void show() {
         lose = new LoseScreen(game);
         music.setVolume(0.2f);
-        musicShot.setVolume(0.4f);
+        musicShot.setVolume(0.5f);
+        musicFlickEarth.setVolume(0.5f);
+        musicFlickMars.setVolume(0.5f);
         musicZeus.setVolume(1f);
         music.setLooping(true);
 
-
-        music.setVolume(0.5f);
+        music.play();
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
         lights_del = new ArrayList<Integer>();
         light = new ArrayList<LightEntity>();
-        music.play();
+
         renderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(64, 36);
         camera.translate(0, 1);
@@ -144,12 +147,18 @@ public class GameScreen extends BaseScreen {
 
                 if ((fixtureA.getUserData().equals("mars") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("mars"))) {
-                    haveResource = true;
+                    if(!haveResource) {
+                        haveResource = true;
+                        musicFlickMars.stop();
+                        musicFlickMars.play();
+                    }
                 }
 
                 if ((fixtureA.getUserData().equals("earth") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("earth"))) {
                     if (haveResource) {
+                        musicFlickEarth.stop();
+                        musicFlickEarth.play();
                         haveResource = false;
                         amountResources ++;
                         showFireball-=0.2f;
