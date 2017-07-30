@@ -285,7 +285,9 @@ public class GameScreen extends BaseScreen {
             timer = 0;
         }
 
-        
+
+
+
         if(timer2>15){
             light.clear();
             lights_del.clear();
