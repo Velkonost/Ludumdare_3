@@ -25,6 +25,7 @@ public class MainGame extends Game {
         manager.load("mars.png", Texture.class);
         manager.load("background.png", Texture.class);
         manager.load("fireball.png", Texture.class);
+        manager.load("light.png", Texture.class);
 
         manager.finishLoading();
 

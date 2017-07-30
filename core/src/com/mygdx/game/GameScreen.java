@@ -54,9 +54,11 @@ public class GameScreen extends BaseScreen {
     private Texture marsTexture;
     private Texture background;
     private Texture fireballTexture;
+    private Texture lightTexture;
 
     private ArrayList<FireballEntity> fireballs;
     private ArrayList<Integer> fireballs_del;
+    private ArrayList<Integer> lights_del;
 
     private boolean haveResource = false;
 
@@ -75,13 +77,15 @@ public class GameScreen extends BaseScreen {
 
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
+        lights_del = new ArrayList<Integer>();
+
         renderer = new Box2DDebugRenderer();
         camera = new OrthographicCamera(64, 36);
         camera.translate(0, 1);
 
         getTextures();
 
-        rocket = new RocketEntity(rocketTexture, this, world, 9f, 7f);
+        rocket = new RocketEntity(rocketTexture, this, world, 8f, 5f);
         earth = new EarthEntity(earthTexture, this, world, 1f, 0f);
         mars = new MarsEntity(marsTexture, this, world, 12f, 7f);
 //        fireball2 = new FireballEntity2(fireballTexture, this, world, 4.5f, 7f, rocket.getX(), rocket.getY());
@@ -93,10 +97,10 @@ public class GameScreen extends BaseScreen {
         wall.add(new WallEntity(world, 14f, 0f, 1f, 30f));
         wall.add(new WallEntity(world, 10f, 8f, 30f, 1f));
 
-        light.add(new LightEntity(rocketTexture, this, world, 0f, 8f, "top left"));
-        light.add(new LightEntity(rocketTexture, this, world, 13f, 8f, "top right"));
-        light.add(new LightEntity(rocketTexture, this, world, 0f, 0f, "bot left"));
-        light.add(new LightEntity(rocketTexture, this, world, 13f, 0f, "bot right"));
+        light.add(new LightEntity(lightTexture, this, world, 2f, 6f, "top left", 0));
+        light.add(new LightEntity(lightTexture, this, world, 11f, 6f, "top right", 1));
+        light.add(new LightEntity(lightTexture, this, world, 2f, 1f, "bot left", 2));
+        light.add(new LightEntity(lightTexture, this, world, 12f, 1f, "bot right", 3));
 
         rocket.boom(true);
 //        stage.addActor(fireball);
@@ -161,12 +165,56 @@ public class GameScreen extends BaseScreen {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
                     }
+
+                    for(int j = 0; j<light.size(); j++){
+                        if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("light"+j))) {
+                            fireballs_del.add(i);
+                            lights_del.add(j);
+                        } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("light"+j))) {
+                            fireballs_del.add(i);
+                            lights_del.add(j);
+                        }
+                    }
                 }
 
-                if ((fixtureA.getUserData().equals("light") && fixtureB.getUserData().equals("rocket"))
-                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("light"))) {
-                    rocket.health += 10;
-                    if (rocket.health > 100) rocket.health = 100;
+                for(int i = 0; i<light.size(); i++) {
+                    if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("wall"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("wall"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("rocket"))) {
+                        if(rocket.health<100) rocket.health += 10;
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("rocket"))) {
+                        if(rocket.health<100) rocket.health += 10;
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("earth"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("earth"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("mars"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("mars"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    }
+
+                    for(int j = 0; j<light.size(); j++){
+                        if ((fixtureA.getUserData().equals("light"+i) && fixtureB.getUserData().equals("light"+j))) {
+                            lights_del.add(i);
+                            lights_del.add(j);
+                        } else if ((fixtureB.getUserData().equals("light"+i) && fixtureA.getUserData().equals("light"+j))) {
+                            lights_del.add(i);
+                            lights_del.add(j);
+                        }
+                    }
                 }
 //                else if ((fixtureA.getUserData().equals("light")) && (fixtureB.getUserData().equals("light"))) {
 //                    fixtureA.setUserData("delete");
@@ -229,10 +277,19 @@ public class GameScreen extends BaseScreen {
                 }
             }
         }
+        if(lights_del.size()>0){
+            for(int i = 0; i<lights_del.size(); i++){
+                if(!light.get(lights_del.get(i)).isRemoved) {
+                    light.get(lights_del.get(i)).addAction(Actions.removeActor());
+                    light.get(lights_del.get(i)).removeFixture();
+                    world.destroyBody(light.get(lights_del.get(i)).getFixture().getBody());
+                }
+            }
+        }
         timer+=delta;
         if(timer>3){
             Map<String, FireballEntity> fireballNames = new HashMap<String, FireballEntity>();
-            fireballNames.put("fireball"+(fireballs.size()-1),new FireballEntity(fireballTexture, this, world, 5.5f, 6f, rocket.getX(), rocket.getY()));
+            fireballNames.put("fireball"+(fireballs.size()-1),new FireballEntity(fireballTexture, this, world, 5.5f, 6.8f, rocket.getX(), rocket.getY()));
             fireballs.add(fireballNames.get("fireball"+(fireballs.size()-1)));
             fireballs.get(fireballs.size()-1).setUserData(fireballs.size()-1);
             stage.addActor(fireballs.get(fireballs.size()-1));
@@ -264,6 +321,7 @@ public class GameScreen extends BaseScreen {
         marsTexture = game.getManager().get("mars.png");
         fireballTexture = game.getManager().get("fireball.png");
         background = game.getManager().get("background.png");
+        lightTexture = game.getManager().get("light.png");
 
     }
 

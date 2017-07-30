@@ -19,6 +19,8 @@ public class LightEntity extends Actor {
 
     private Body body;
 
+    public boolean isRemoved = false;
+
     public float x_main, y_main;
 
     private Fixture fixture;//
@@ -31,7 +33,7 @@ public class LightEntity extends Actor {
 
     private String direction;
 
-    public LightEntity(Texture texture, GameScreen game, World world, float x, float y, String direction) {
+    public LightEntity(Texture texture, GameScreen game, World world, float x, float y, String direction, int userData) {
         this.texture = texture;
 
         this.direction = direction;
@@ -50,7 +52,7 @@ public class LightEntity extends Actor {
         box.setAsBox(0.25f, 0.5f);
 
         fixture = body.createFixture(box, 1);
-        fixture.setUserData("light");
+        fixture.setUserData("light"+userData);
 
         body.setFixedRotation(false);
 
@@ -89,5 +91,13 @@ public class LightEntity extends Actor {
                 (body.getPosition().y) * PIXELS_IN_METER);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 
+    }
+
+    public void removeFixture(){
+        isRemoved = true;
+    }
+
+    public Fixture getFixture() {
+        return fixture;
     }
 }
