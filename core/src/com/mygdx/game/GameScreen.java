@@ -431,7 +431,7 @@ public class GameScreen extends BaseScreen {
         rocket.processInput();
         world.step(delta, 6, 2);
         camera.update();
-        renderer.render(world, camera.combined);
+//        renderer.render(world, camera.combined);
 
         stage.draw();
 
