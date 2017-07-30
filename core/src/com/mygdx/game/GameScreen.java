@@ -41,9 +41,11 @@ public class GameScreen extends BaseScreen {
     private ArrayList<WallEntity> wall;
     private ArrayList<LightEntity> light;
 
-    private int amountResources = 0;
+    public int amountResources = 0;
 
     private OrthographicCamera camera;
+
+    private boolean gravityChanged = false;
 
     private RocketEntity rocket;
     private EarthEntity earth;
@@ -87,6 +89,7 @@ public class GameScreen extends BaseScreen {
 
         wall = new ArrayList<WallEntity>();
 
+
     }
 
     @Override
@@ -118,10 +121,10 @@ public class GameScreen extends BaseScreen {
 
         sp = new SpriteBatch();
 
-        wall.add(new WallEntity(world, 10f, -2f, 30f, 1f, true));
-        wall.add(new WallEntity(world, -1f, 0f, 1f, 30f, false));
-        wall.add(new WallEntity(world, 14f, 0f, 1f, 30f, false));
-        wall.add(new WallEntity(world, 10f, 8f, 30f, 1f, false));
+        wall.add(new WallEntity(world, 10f, -2f, 30f, 1f, true, false));
+        wall.add(new WallEntity(world, -1f, 0f, 1f, 30f, false, false));
+        wall.add(new WallEntity(world, 14f, 0f, 1f, 30f, false, false));
+        wall.add(new WallEntity(world, 10f, 8f, 30f, 1f, false, true));
 
         rocket.boom(true);
         stage.addActor(rocket);
@@ -142,7 +145,11 @@ public class GameScreen extends BaseScreen {
 
                 if ((fixtureA.getUserData().equals("wallDown") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("wallDown"))) {
-                    isLose = true;
+                    if (!gravityChanged) isLose = true;
+                }
+                if ((fixtureA.getUserData().equals("wallUp") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("wallUp"))) {
+                    if (gravityChanged) isLose = true;
                 }
 
                 if ((fixtureA.getUserData().equals("mars") && fixtureB.getUserData().equals("rocket"))
@@ -161,9 +168,8 @@ public class GameScreen extends BaseScreen {
                         musicFlickEarth.play();
                         haveResource = false;
                         amountResources ++;
-                        showFireball-=0.2f;
-                        rocket.speed += 0.3f;
-                        showFireball-=0.01f;
+                        showFireball-=0.17f;
+                        rocket.speed += 0.2f;
                         showZeus+=1f;
                     }
 
@@ -179,6 +185,13 @@ public class GameScreen extends BaseScreen {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
                     } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("wallDown"))) {
+                        fireballs_del.add(i);
+                        System.out.println("fireball"+i);
+                    }
+                    if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("wallUp"))) {
+                        fireballs_del.add(i);
+                        System.out.println("fireball"+i);
+                    } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("wallUp"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
                     }
@@ -230,6 +243,13 @@ public class GameScreen extends BaseScreen {
                         lights_del.add(i);
                         System.out.println("light" + i);
                     } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("wallDown"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    }
+                    if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("wallUp"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("wallUp"))) {
                         lights_del.add(i);
                         System.out.println("light" + i);
                     }
@@ -305,6 +325,11 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
+        if (amountResources >= 9) {
+            world.setGravity(new Vector2(0, 25));
+            gravityChanged = true;
+        }
+
         lose = new LoseScreen(game, amountResources);
         if (rocket.health <= 0 || isLose) {
             music.stop();

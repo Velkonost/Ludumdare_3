@@ -17,7 +17,7 @@ public class WallEntity extends Actor {
     private Fixture fixture;
     float width, height, x, y, dwidth, dheight;
 
-    public WallEntity(World world, float x, float y, float width, float height, boolean isDown) {
+    public WallEntity(World world, float x, float y, float width, float height, boolean isDown, boolean isUp) {
 //        this.texture = texture;
         this.world = world;
 
@@ -42,6 +42,8 @@ public class WallEntity extends Actor {
         fixture = body.createFixture(shape, 1);
         if (isDown) {
             fixture.setUserData("wallDown");
+        } else if (isUp) {
+            fixture.setUserData("wallUp");
         } else {
             fixture.setUserData("wall");
         }

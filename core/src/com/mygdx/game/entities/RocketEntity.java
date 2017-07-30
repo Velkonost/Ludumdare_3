@@ -248,7 +248,12 @@ public class RocketEntity extends Actor implements InputProcessor {
             isMove = true;
         }
         if (keys.get(KeysProger.UP)) {
-            body.setLinearVelocity(body.getLinearVelocity().x, speedUp);
+            if (game.amountResources >= 9) {
+                body.setLinearVelocity(body.getLinearVelocity().x, -speedUp);
+            } else {
+                body.setLinearVelocity(body.getLinearVelocity().x, speedUp);
+            }
+
 //            finishAngle = 0;
             isMove = true;
         }
