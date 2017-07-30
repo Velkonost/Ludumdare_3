@@ -68,7 +68,7 @@ public class GameScreen extends BaseScreen {
 
     private boolean haveResource = false;
 
-    private Music music;
+    private Music music, musicZeus, musicShot;
     public LoseScreen lose;
 
     private boolean isLose = false;
@@ -77,6 +77,8 @@ public class GameScreen extends BaseScreen {
         super(game);
         this.game = game;
         music = Gdx.audio.newMusic(Gdx.files.internal("audio.mp3"));
+        musicZeus = Gdx.audio.newMusic(Gdx.files.internal("musicZeus.mp3"));
+        musicShot = Gdx.audio.newMusic(Gdx.files.internal("shot.mp3"));
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, -50), true);
 
@@ -87,7 +89,10 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         lose = new LoseScreen(game);
-        music.setVolume(0.5f);
+        music.setVolume(0.3f);
+        musicShot.setVolume(0.2f);
+        musicZeus.setVolume(1f);
+        music.setLooping(true);
         fireballs = new ArrayList<FireballEntity>();
         fireballs_del = new ArrayList<Integer>();
         lights_del = new ArrayList<Integer>();
@@ -166,10 +171,12 @@ public class GameScreen extends BaseScreen {
                         System.out.println("fireball"+i);
                     }
                     else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("rocket"))) {
+                        musicShot.play();
                         rocket.health -= 10;
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
                     } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("rocket"))) {
+                        musicShot.play();
                         rocket.health -= 10;
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
@@ -332,10 +339,12 @@ public class GameScreen extends BaseScreen {
             }
             timer2 = 0;
             secTimer3 = true;
+            musicZeus.play();
         }
         if(timer3>3){
             timer3 = 0;
             secTimer3 = false;
+            musicZeus.stop();
         }
         stage.act();
 
