@@ -284,6 +284,8 @@ public class GameScreen extends BaseScreen {
             stage.addActor(fireballs.get(fireballs.size()-1));
             timer = 0;
         }
+
+        
         if(timer2>15){
             light.clear();
             lights_del.clear();
