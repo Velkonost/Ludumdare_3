@@ -66,6 +66,8 @@ public class GameScreen extends BaseScreen {
 
     public LoseScreen lose;
 
+    private boolean isLose = false;
+
     public GameScreen(MainGame game) {
         super(game);
         this.game = game;
@@ -98,10 +100,10 @@ public class GameScreen extends BaseScreen {
 
         sp = new SpriteBatch();
 
-        wall.add(new WallEntity(world, 10f, -1f, 30f, 1f));
-        wall.add(new WallEntity(world, -1f, 0f, 1f, 30f));
-        wall.add(new WallEntity(world, 14f, 0f, 1f, 30f));
-        wall.add(new WallEntity(world, 10f, 8f, 30f, 1f));
+        wall.add(new WallEntity(world, 10f, -2f, 30f, 1f, true));
+        wall.add(new WallEntity(world, -1f, 0f, 1f, 30f, false));
+        wall.add(new WallEntity(world, 14f, 0f, 1f, 30f, false));
+        wall.add(new WallEntity(world, 10f, 8f, 30f, 1f, false));
 
         rocket.boom(true);
 //        stage.addActor(fireball);
@@ -121,6 +123,11 @@ public class GameScreen extends BaseScreen {
             public void beginContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
                 Fixture fixtureB = contact.getFixtureB();
+
+                if ((fixtureA.getUserData().equals("wallDown") && fixtureB.getUserData().equals("rocket"))
+                        || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("wallDown"))) {
+                    isLose = true;
+                }
 
                 if ((fixtureA.getUserData().equals("mars") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("mars"))) {
@@ -142,7 +149,14 @@ public class GameScreen extends BaseScreen {
                     } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("wall"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("rocket"))) {
+                    } if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("wallDown"))) {
+                        fireballs_del.add(i);
+                        System.out.println("fireball"+i);
+                    } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("wallDown"))) {
+                        fireballs_del.add(i);
+                        System.out.println("fireball"+i);
+                    }
+                    else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("rocket"))) {
                         rocket.health -= 10;
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
@@ -182,7 +196,15 @@ public class GameScreen extends BaseScreen {
                     } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("wall"))) {
                         lights_del.add(i);
                         System.out.println("light" + i);
-                    } else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("rocket"))) {
+                    } if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("wallDown"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    } else if ((fixtureB.getUserData().equals("light" + i) && fixtureA.getUserData().equals("wallDown"))) {
+                        lights_del.add(i);
+                        System.out.println("light" + i);
+                    }
+
+                    else if ((fixtureA.getUserData().equals("light" + i) && fixtureB.getUserData().equals("rocket"))) {
                         if(rocket.health<100) {
                             rocket.health += 10;
                             if (rocket.health > 100) rocket.health = 100;
@@ -248,7 +270,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
 
-        if (rocket.health <= 0) {
+        if (rocket.health <= 0 || isLose) {
             game.setScreen(lose);
         }
 
