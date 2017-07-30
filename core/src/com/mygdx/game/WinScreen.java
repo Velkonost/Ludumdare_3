@@ -14,6 +14,7 @@ public class WinScreen extends BaseScreen {
     public MainGame game;
     private SpriteBatch LS;
     BitmapFont font;
+    private float timer = 0;
     float CAM_W = 1280, CAM_H = 720;
     private Texture losePik;
     private Sprite losePikch;
@@ -33,6 +34,10 @@ public class WinScreen extends BaseScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        timer += delta;
+        if(timer>10){
+            game.setScreen(new MenuScreen(game));
+        }
         LS.begin();
         LS.draw(losePik, 0, 0);
         font.getData().setScale(3, 3);
