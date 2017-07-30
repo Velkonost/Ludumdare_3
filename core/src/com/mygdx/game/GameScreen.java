@@ -190,7 +190,7 @@ public class GameScreen extends BaseScreen {
                         isGravityChanged = true;
                     }
 
-                    if (amountResources == 1) {
+                    if (amountResources == 11) {
                         isWon = true;
                     }
 
