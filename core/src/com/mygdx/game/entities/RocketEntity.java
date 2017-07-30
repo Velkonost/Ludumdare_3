@@ -74,12 +74,12 @@ public class RocketEntity extends Actor implements InputProcessor {
         body.setFixedRotation(true);
 
         final PolygonShape box = new PolygonShape();
-        box.setAsBox(0.25f, 0.5f);
+        box.setAsBox(0.25f, 0.35f);
 
         fixture = body.createFixture(box, 0);
         fixture.setUserData("rocket");
 
-        body.setFixedRotation(false);
+//        body.setFixedRotation(false);
 
         box.dispose();
 
@@ -100,18 +100,23 @@ public class RocketEntity extends Actor implements InputProcessor {
         setPosition((body.getPosition().x) * PIXELS_IN_METER,
                 (body.getPosition().y) * PIXELS_IN_METER);
 
+
+
         if ((finishAngle > startAngle) && isMove) {
             batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
                     1, startAngle, 1, 1, 900, 900, false, false);
+            body.setTransform(body.getPosition().x, body.getPosition().y, (float)(startAngle * 3.14/180));
             startAngle += 2f;
         } else if ((startAngle > finishAngle) && isMove) {
             batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
                     1, startAngle, 1, 1, 900, 900, false, false);
+            body.setTransform(body.getPosition().x, body.getPosition().y, (float)(startAngle * 3.14/180));
             startAngle -= 2f;
 
         } else {
             batch.draw(texture, getX(), getY(), (getWidth()) / 2, (getHeight()) / 2, getWidth(), getHeight(), 1,
                     1, startAngle, 1, 1, 900, 900, false, false);
+            body.setTransform(body.getPosition().x, body.getPosition().y, (float)(startAngle * 3.14/180));
         }
     }
 

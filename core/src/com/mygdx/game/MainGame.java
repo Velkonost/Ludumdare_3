@@ -29,6 +29,8 @@ public class MainGame extends Game {
 
         manager.load("accepthelp.png", Texture.class);
         manager.load("lose.jpg", Texture.class);
+        manager.load("menulose.png", Texture.class);
+        manager.load("menuStart.png", Texture.class);
 
 
         manager.finishLoading();

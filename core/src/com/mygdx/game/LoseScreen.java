@@ -25,6 +25,8 @@ public class LoseScreen extends BaseScreen implements InputProcessor {
 
     private int score;
 
+    public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
+
     public LoseScreen(MainGame game, int score){
         super();
         this.game = game;
@@ -36,8 +38,9 @@ public class LoseScreen extends BaseScreen implements InputProcessor {
 
     public void show() {
         LS = new SpriteBatch();
-        losePik = game.getManager().get("lose.jpg");
-        font = new BitmapFont();
+        losePik = game.getManager().get("menulose.png");
+//        font = new BitmapFont(Gdx.files.internal("impact.ttf"));
+        font = TrueTypeFontGenerator.createBitmapFont(Gdx.files.internal("font.ttf"), FONT_CHARACTERS, 12.5f, 7.5f, 1.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         mGameScreen = new GameScreen(game);
         Gdx.input.setInputProcessor(this);
@@ -50,7 +53,6 @@ public class LoseScreen extends BaseScreen implements InputProcessor {
         LS.draw(losePik, 0, 0);
         font.getData().setScale(3, 3);
         font.draw(LS, "YOUR SCORE: " + String.valueOf(score), 200,  Gdx.graphics.getHeight()-150);
-        font.draw(LS, "PRESS `ENTER` TO RESTART", 200,  Gdx.graphics.getHeight()-400);
 
         LS.end();
     }

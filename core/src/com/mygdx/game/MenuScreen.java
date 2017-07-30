@@ -31,7 +31,7 @@ public class MenuScreen extends BaseScreen implements InputProcessor {
 
     public void show() {
         LS = new SpriteBatch();
-        losePik = game.getManager().get("lose.jpg");
+        losePik = game.getManager().get("menuStart.png");
         font = new BitmapFont();
 
         mGameScreen = new GameScreen(game);
