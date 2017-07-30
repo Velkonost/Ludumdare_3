@@ -145,7 +145,7 @@ public class GameScreen extends BaseScreen {
 
                 if ((fixtureA.getUserData().equals("wallDown") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("wallDown"))) {
-                    if (!gravityChanged) isLose = true;
+                    isLose = true;
                 }
                 if ((fixtureA.getUserData().equals("wallUp") && fixtureB.getUserData().equals("rocket"))
                         || (fixtureA.getUserData().equals("rocket") && fixtureB.getUserData().equals("wallUp"))) {
