@@ -168,8 +168,15 @@ public class GameScreen extends BaseScreen {
                         musicFlickEarth.play();
                         haveResource = false;
                         amountResources ++;
-                        showFireball-=0.17f;
-                        rocket.speed += 0.2f;
+                        if (amountResources < 5) {
+                            showFireball -= 0.3f;
+                            rocket.speed += 0.3f;
+                        }
+                        else {
+                            showFireball-=0.1f;
+                            rocket.speed += 0.2f;
+                        }
+
                         showZeus+=1f;
                     }
 

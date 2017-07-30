@@ -48,7 +48,7 @@ public class FireballEntity extends Actor {
         body.setFixedRotation(true);
 
         final PolygonShape box = new PolygonShape();
-        box.setAsBox(0.25f, 0.5f);
+        box.setAsBox(0.4f, 0.4f);
 
         fixture = body.createFixture(box, 1);
         fixture.setUserData("fireball");
