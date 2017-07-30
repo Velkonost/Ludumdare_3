@@ -83,4 +83,8 @@ public class FireballEntity extends Actor {
     public Fixture getFixture() {
         return fixture;
     }
+
+    public void setUserData(int i){
+        fixture.setUserData("fireball"+i);
+    }
 }

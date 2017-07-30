@@ -137,27 +137,27 @@ public class GameScreen extends BaseScreen {
                     if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("wall"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureB.getUserData().equals("fireball") && fixtureA.getUserData().equals("wall"))) {
+                    } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("wall"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureA.getUserData().equals("fireball") && fixtureB.getUserData().equals("rocket"))) {
-                        rocket.health -= 5;
+                    } else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("rocket"))) {
+                        rocket.health -= 10;
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureB.getUserData().equals("fireball") && fixtureA.getUserData().equals("rocket"))) {
-                        rocket.health -= 5;
+                    } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("rocket"))) {
+                        rocket.health -= 10;
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureA.getUserData().equals("fireball") && fixtureB.getUserData().equals("earth"))) {
+                    } else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("earth"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureB.getUserData().equals("fireball") && fixtureA.getUserData().equals("earth"))) {
+                    } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("earth"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureA.getUserData().equals("fireball") && fixtureB.getUserData().equals("mars"))) {
+                    } else if ((fixtureA.getUserData().equals("fireball"+i) && fixtureB.getUserData().equals("mars"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
-                    } else if ((fixtureB.getUserData().equals("fireball") && fixtureA.getUserData().equals("mars"))) {
+                    } else if ((fixtureB.getUserData().equals("fireball"+i) && fixtureA.getUserData().equals("mars"))) {
                         fireballs_del.add(i);
                         System.out.println("fireball"+i);
                     }
@@ -234,6 +234,7 @@ public class GameScreen extends BaseScreen {
             Map<String, FireballEntity> fireballNames = new HashMap<String, FireballEntity>();
             fireballNames.put("fireball"+(fireballs.size()-1),new FireballEntity(fireballTexture, this, world, 5.5f, 6f, rocket.getX(), rocket.getY()));
             fireballs.add(fireballNames.get("fireball"+(fireballs.size()-1)));
+            fireballs.get(fireballs.size()-1).setUserData(fireballs.size()-1);
             stage.addActor(fireballs.get(fireballs.size()-1));
             timer = 0;
         }
