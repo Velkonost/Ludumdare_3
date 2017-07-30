@@ -345,6 +345,7 @@ public class GameScreen extends BaseScreen {
         lose = new LoseScreen(game, amountResources);
         if (rocket.health <= 0 || isLose) {
             music.stop();
+            signal.stop();  
             game.setScreen(lose);
         }
 
@@ -425,6 +426,7 @@ public class GameScreen extends BaseScreen {
             if(timer4>3){
                 isGravityChanged = false;
                 signal.stop();
+                timer4 = 0;
             }
         }
         stage.getBatch().end();
