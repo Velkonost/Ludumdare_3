@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -66,6 +67,7 @@ public class GameScreen extends BaseScreen {
 
     private boolean haveResource = false;
 
+    private Music music;
     public LoseScreen lose;
 
     private boolean isLose = false;
@@ -73,6 +75,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(MainGame game) {
         super(game);
         this.game = game;
+        music = Gdx.audio.newMusic(Gdx.files.internal("audio.mp3"));
         stage = new Stage(new FitViewport(1280, 720));
         world = new World(new Vector2(0, -50), true);
 
@@ -141,7 +144,7 @@ public class GameScreen extends BaseScreen {
                     if (haveResource) {
                         haveResource = false;
                         amountResources ++;
-                        showFireball-=0.01f;
+                        showFireball-=0.2f;
                         showZeus+=1f;
                     }
 
