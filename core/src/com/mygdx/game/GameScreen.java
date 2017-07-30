@@ -62,6 +62,8 @@ public class GameScreen extends BaseScreen {
     private ArrayList<Integer> fireballs_del;
     private ArrayList<Integer> lights_del;
 
+    private float showFireball = 2f;
+
     private boolean haveResource = false;
 
     public LoseScreen lose;
@@ -298,7 +300,7 @@ public class GameScreen extends BaseScreen {
         timer+=delta;
         timer2+=delta;
 
-        if(timer>0.5){
+        if(timer>showFireball){
             Map<String, FireballEntity> fireballNames = new HashMap<String, FireballEntity>();
             fireballNames.put("fireball"+(fireballs.size()-1),new FireballEntity(fireballTexture, this, world, 5.5f, 6.8f, rocket.getX(), rocket.getY()));
             fireballs.add(fireballNames.get("fireball"+(fireballs.size()-1)));
